@@ -12,7 +12,7 @@ type IUserUpdate = z.infer<typeof UserUpdateSchema>;
 interface IUser {
   name:  string;
   email: string;
-  post:  IPost[];
+  post?:  IPost[];
 }
 
 interface UserResponse {

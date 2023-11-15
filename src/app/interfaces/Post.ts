@@ -11,8 +11,11 @@ type IPostUpdate = z.infer<typeof PostUpdateSchema>;
 interface IPost {
   phrase:    string;
   imgURL?:   string;
-  createdAt: string;
+  createdAt?: string;
   authorId:  number;
+}
+
+interface IValidatedPost {
   published: boolean;
 }
 

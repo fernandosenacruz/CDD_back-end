@@ -1,15 +1,20 @@
 import { Router } from 'express';
 
+import userValidations from '../middlewares/user';
+import UserController from '../controllers/UserController';
+import prisma from '../helpers/prisma';
+
 const router: Router = Router();
+const userController = new UserController({ prisma });
 
-router.get('/');
+router.get('users', userController.getAll);
 
-router.get('/:id');
+router.get('users:id', userController.getById);
 
-router.post('/post');
+router.post('users/post', userValidations.validateCreate, userController.create);
 
-router.put('/:id');
+router.put('users:id', userValidations.validateUpdate, userController.updateOne);
 
-router.delete('/:id');
+router.delete('users:id', userController.deleteOne);
 
 export default router;

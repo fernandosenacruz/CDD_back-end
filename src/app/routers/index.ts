@@ -1,3 +1,4 @@
 import users from './users';
+import posts from './posts';
 
-export default { users };
+export default { users, posts };

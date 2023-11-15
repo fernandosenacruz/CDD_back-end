@@ -11,13 +11,19 @@ export class ApplicationError extends Error {
 
 const ERRORS = {
   USER: {
-    USER_EXISTS: new ApplicationError(
+    EMAIL_EXISTS: new ApplicationError(
       StatusCodes.CONFLICT,
-      'Usuário já cadastrado',
+      'Email já cadastrado',
     ),
     NOT_FOUND: new ApplicationError(
       StatusCodes.NOT_FOUND,
       'Usuário não encontrado',
+    ),
+  },
+  POST: {
+    NOT_FOUND: new ApplicationError(
+      StatusCodes.NOT_FOUND,
+      'Post não encontrado',
     ),
   },
 };

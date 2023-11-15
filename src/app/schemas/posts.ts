@@ -5,7 +5,6 @@ export const PostCreateSchema = z
     phrase: z.string().min(10).max(255),
     imgURL: z.string() || z.undefined,
     authorId: z.number(),
-    published: z.boolean(),
   })
   .strict();
 
@@ -24,7 +23,6 @@ export const PostUpdateSchema = z
     phrase: z.string().min(10).max(255),
     imgURL: z.string() || z.undefined,
     authorId: z.number(),
-    published: z.boolean(),
   })
   .strict();
 

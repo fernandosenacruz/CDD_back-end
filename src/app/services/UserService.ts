@@ -1,0 +1,102 @@
+import ERRORS from '../helpers/errors/error';
+import MESSAGES from '../helpers/others/messages';
+import StatusCodes from '../helpers/others/StatusCodes';
+import IContext from '../interfaces/Context';
+import UserModel from '../models/UserModel';
+import IUserModel  from './../interfaces/UserModel';
+import {
+  IUser,
+  UserResponse,
+  IUsersResponse,
+  IUserUpdate
+} from '../interfaces/User';
+
+export default class UserService {
+  constructor(private userModel: IUserModel = UserModel) {}
+
+  public create = async (
+    user: IUser,
+    ctx: IContext
+  ): Promise<UserResponse> => {
+    const emailExists = await this.userModel.getOne(
+      { email: user.email },
+      ctx
+    );
+
+    if (emailExists) throw ERRORS.USER.EMAIL_EXISTS;
+
+    const newUser = await this.userModel.create(user, ctx);
+
+    return {
+      message: MESSAGES.USERS.CREATED,
+      statusCode: StatusCodes.CREATED,
+      user: newUser,
+    };
+  };
+
+  public getAll = async (ctx: IContext): Promise<IUsersResponse> => {
+    const users = await this.userModel.getAll(ctx);
+
+    return {
+      message: MESSAGES.USERS.FOUND,
+      statusCode: StatusCodes.OK,
+      users,
+    };
+  };
+
+  public getById = async (
+    userId: string,
+    ctx: IContext
+  ): Promise<UserResponse> => {
+    const user = await this.userModel.getOne({ id: +userId }, ctx);
+
+    if (!user) throw ERRORS.USER.NOT_FOUND;
+
+    return {
+      message: MESSAGES.USERS.FOUND,
+      statusCode: StatusCodes.OK,
+      user,
+    };
+  };
+
+  public updateOne = async (
+    userId: string,
+    payload: IUserUpdate,
+    ctx: IContext
+  ): Promise<UserResponse> => {
+    const user = await this.userModel.getOne({ id: +userId }, ctx);
+
+    if (!user) throw ERRORS.USER.NOT_FOUND;
+
+    const updatedUser = await this.userModel.updateOne(
+      +userId,
+      payload,
+      ctx
+    );
+
+    return {
+      message: MESSAGES.USERS.UPDATAED,
+      statusCode: StatusCodes.OK,
+      user: updatedUser,
+    };
+  };
+
+  public deleteOne = async (
+    userId: string,
+    ctx: IContext
+  ): Promise<UserResponse> => {
+    const user = await this.userModel.getOne({ id: +userId }, ctx);
+
+    if (!user) throw ERRORS.USER.NOT_FOUND;
+
+    await this.userModel.deleteOne(
+      +userId,
+      ctx
+    );
+
+    return {
+      message: MESSAGES.USERS.DELETED,
+      statusCode: StatusCodes.OK,
+    };
+  };
+}

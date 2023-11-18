@@ -2,7 +2,7 @@ import ERRORS from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
 import IContext from '../interfaces/Context';
-import UserModel from '../models/UserModel';
+import Models from '../models';
 import IUserModel  from './../interfaces/UserModel';
 import {
   IUser,
@@ -12,7 +12,7 @@ import {
 } from '../interfaces/User';
 
 export default class UserService {
-  constructor(private userModel: IUserModel = UserModel) {}
+  constructor(private userModel: IUserModel = Models.UserModel) {}
 
   public create = async (
     user: IUser,

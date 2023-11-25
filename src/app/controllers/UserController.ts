@@ -5,7 +5,7 @@ import { TypedRequest, TypedResponse } from '../interfaces';
 import IContext from '../interfaces/Context';
 import UserService from '../services/UserService';
 import {
-  UserResponse,
+  IUserResponse,
   IUsersResponse,
   IUserUpdate
 } from '../interfaces/User';
@@ -21,7 +21,7 @@ export default class UserCrontroller {
     req: TypedRequest<User>,
     res: Response,
     _next: NextFunction
-  ): Promise<TypedResponse<UserResponse>> => {
+  ): Promise<TypedResponse<IUserResponse>> => {
     const response = await this.clientService.create(req.body, this.ctx);
 
     return res.status(StatusCodes.CREATED).json(response);
@@ -41,7 +41,7 @@ export default class UserCrontroller {
     req: TypedRequest<any, any, { id: string }>,
     res: Response,
     _next: NextFunction
-  ): Promise<TypedResponse<UserResponse>> => {
+  ): Promise<TypedResponse<IUserResponse>> => {
     const { id } = req.params;
 
     const response = await this.clientService.getById(id, this.ctx);
@@ -53,7 +53,7 @@ export default class UserCrontroller {
     req: TypedRequest<IUserUpdate, any, { id: string }>,
     res: Response,
     _next: NextFunction
-  ): Promise<TypedResponse<UserResponse>> => {
+  ): Promise<TypedResponse<IUserResponse>> => {
     const { id } = req.params;
     const payload = req.body;
 
@@ -66,7 +66,7 @@ export default class UserCrontroller {
     req: TypedRequest<any, any, { id: string }>,
     res: Response,
     _next: NextFunction
-  ): Promise<TypedResponse<UserResponse>> => {
+  ): Promise<TypedResponse<IUserResponse>> => {
     const { id } = req.params;
 
     const response = await this.clientService.deleteOne(id, this.ctx);

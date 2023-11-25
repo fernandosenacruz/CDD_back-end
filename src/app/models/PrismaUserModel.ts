@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-
+import bcrypt from 'bcrypt';
 import { IUserUpdate } from '../interfaces/User';
 import IContext from '../interfaces/Context';
 
@@ -12,7 +12,14 @@ export default class PrismaModel {
     user: User,
     ctx: IContext
   ): Promise<User> => {
-    return ctx.prisma[this.model].create({ data: user });
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
+    return ctx.prisma[this.model].create({ 
+      data: {
+        ...user,
+        password: hashedPassword
+      }
+    });
   };
 
   public getAll = async (ctx: IContext) => {

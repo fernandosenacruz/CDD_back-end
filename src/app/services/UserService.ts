@@ -5,7 +5,7 @@ import IContext from '../interfaces/Context';
 import Models from '../models';
 import IUserModel  from './../interfaces/UserModel';
 import {
-  UserResponse,
+  IUserResponse,
   IUsersResponse,
   IUserUpdate
 } from '../interfaces/User';
@@ -17,7 +17,7 @@ export default class UserService {
   public create = async (
     user: User,
     ctx: IContext
-  ): Promise<UserResponse> => {
+  ): Promise<IUserResponse> => {
     const emailExists = await this.userModel.getOne(
       { email: user.email },
       ctx
@@ -47,15 +47,18 @@ export default class UserService {
   public getById = async (
     userId: string,
     ctx: IContext
-  ): Promise<UserResponse> => {
+  ): Promise<IUserResponse> => {
     const user = await this.userModel.getOne({ id: +userId }, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
+    const { id, name, userName, email } = user;
+    const userWithoutPassword = { id, name, email, userName };
+
     return {
       message: MESSAGES.USERS.FOUND,
       statusCode: StatusCodes.OK,
-      user,
+      user: userWithoutPassword,
     };
   };
 
@@ -63,7 +66,7 @@ export default class UserService {
     userId: string,
     payload: IUserUpdate,
     ctx: IContext
-  ): Promise<UserResponse> => {
+  ): Promise<IUserResponse> => {
     const user = await this.userModel.getOne({ id: +userId }, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
@@ -84,7 +87,7 @@ export default class UserService {
   public deleteOne = async (
     userId: string,
     ctx: IContext
-  ): Promise<UserResponse> => {
+  ): Promise<IUserResponse> => {
     const user = await this.userModel.getOne({ id: +userId }, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;

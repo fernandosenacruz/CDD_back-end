@@ -11,6 +11,7 @@ router.get('users', userController.getAll);
 
 router.get('users:id', userController.getById);
 
+router.post('login', userValidations.validateLogin);
 router.post('users/post', userValidations.validateCreate, userController.create);
 
 router.put('users:id', userValidations.validateUpdate, userController.updateOne);

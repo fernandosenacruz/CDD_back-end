@@ -10,13 +10,14 @@ type IUserCreate = z.infer<typeof UserCreateSchema>;
 type IUserUpdate = z.infer<typeof UserUpdateSchema>;
 
 interface IUser {
-  name:  string;
-  email: string;
-  post?:  IPost[];
+  name:     string;
+  email:    string;
+  userName: string;
+  post?:    IPost[];
 }
 
-interface UserResponse {
-  user?:      User | null;
+interface IUserResponse {
+  user?:      Partial<User> | null;
   message:    string;
   statusCode: StatusCodes;
 }
@@ -29,7 +30,7 @@ interface IUsersResponse {
 
 export {
   IUser,
-  UserResponse,
+  IUserResponse,
   IUsersResponse,
   IUserCreate,
   IUserUpdate

@@ -7,9 +7,9 @@ import UserService from '../services/UserService';
 import {
   UserResponse,
   IUsersResponse,
-  IUserCreate,
   IUserUpdate
 } from '../interfaces/User';
+import { User } from '@prisma/client';
 
 export default class UserCrontroller {
   constructor(
@@ -18,7 +18,7 @@ export default class UserCrontroller {
   ) {}
 
   public create = async (
-    req: TypedRequest<IUserCreate>,
+    req: TypedRequest<User>,
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<UserResponse>> => {

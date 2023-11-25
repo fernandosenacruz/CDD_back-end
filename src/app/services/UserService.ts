@@ -5,17 +5,17 @@ import IContext from '../interfaces/Context';
 import Models from '../models';
 import IUserModel  from './../interfaces/UserModel';
 import {
-  IUser,
   UserResponse,
   IUsersResponse,
   IUserUpdate
 } from '../interfaces/User';
+import { User } from '@prisma/client';
 
 export default class UserService {
   constructor(private userModel: IUserModel = Models.UserModel) {}
 
   public create = async (
-    user: IUser,
+    user: User,
     ctx: IContext
   ): Promise<UserResponse> => {
     const emailExists = await this.userModel.getOne(

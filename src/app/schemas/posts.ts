@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const PostCreateSchema = z
   .object({
     phrase: z.string().min(10).max(255),
-    imgURL: z.string() || z.undefined,
+    imgURL: z.string().optional(),
     authorId: z.number(),
   })
   .strict();
@@ -21,7 +21,7 @@ const getOne = PostIdSchema;
 export const PostUpdateSchema = z
   .object({
     phrase: z.string().min(10).max(255),
-    imgURL: z.string() || z.undefined,
+    imgURL: z.string().optional(),
     authorId: z.number(),
   })
   .strict();

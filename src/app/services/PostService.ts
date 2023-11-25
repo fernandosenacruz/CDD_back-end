@@ -2,20 +2,20 @@ import ERRORS from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
 import IContext from '../interfaces/Context';
-import PostModel from '../models/PrismaPostModel';
+import Models from '../models';
 import IPostModel  from './../interfaces/PostModel';
 import {
-  IPost,
   IPostResponse,
   IPostsResponse,
   IPostUpdate,
 } from '../interfaces/Post';
+import { Post } from '@prisma/client';
 
 export default class PostService {
-  constructor(private postModel: IPostModel = PostModel) {}
+  constructor(private postModel: IPostModel = Models.PostModel) {}
 
   public create = async (
-    post: IPost,
+    post: Post,
     ctx: IContext
   ): Promise<IPostResponse> => {
     const newPost = await this.postModel.create(post, ctx);

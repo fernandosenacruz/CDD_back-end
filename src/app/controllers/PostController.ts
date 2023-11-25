@@ -7,9 +7,9 @@ import PostService from '../services/PostService';
 import {
   IPostResponse,
   IPostsResponse,
-  IPostCreate,
   IPostUpdate,
 } from '../interfaces/Post';
+import { Post } from '@prisma/client';
 
 export default class PostCrontroller {
   constructor(
@@ -18,7 +18,7 @@ export default class PostCrontroller {
   ) {}
 
   public create = async (
-    req: TypedRequest<IPostCreate>,
+    req: TypedRequest<Post>,
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IPostResponse>> => {

@@ -1,8 +1,7 @@
 import { User } from '@prisma/client';
 
-import { IUserCreate, IUserUpdate } from '../interfaces/User';
+import { IUserUpdate } from '../interfaces/User';
 import IContext from '../interfaces/Context';
-import IUserModel from '../interfaces/UserModel';
 
 type Models = 'user';
 
@@ -10,7 +9,7 @@ export default class PrismaModel {
   constructor(private model: Models) {}
 
   public create = async (
-    user: IUserCreate,
+    user: User,
     ctx: IContext
   ): Promise<User> => {
     return ctx.prisma[this.model].create({ data: user });

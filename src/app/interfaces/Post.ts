@@ -9,10 +9,10 @@ type IPostCreate = z.infer<typeof PostCreateSchema>;
 type IPostUpdate = z.infer<typeof PostUpdateSchema>;
 
 interface IPost {
-  phrase:    string;
-  imgURL?:   string;
-  createdAt?: string;
-  authorId:  number;
+  phrase:     string;
+  imgURL?:    string;
+  createdAt?: Date ;
+  authorId:   number;
 }
 
 interface IValidatedPost {

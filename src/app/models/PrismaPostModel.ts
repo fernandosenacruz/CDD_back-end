@@ -1,6 +1,6 @@
 import { Post } from '@prisma/client';
 
-import { IPostCreate, IPostUpdate } from '../interfaces/Post';
+import { IPostUpdate } from '../interfaces/Post';
 import IContext from '../interfaces/Context';
 
 type Models = 'post';
@@ -9,10 +9,15 @@ export default class PrismaModel {
   constructor(private model: Models) {}
 
   public create = async (
-    user: IPostCreate,
+    post: Post,
     ctx: IContext
   ): Promise<Post> => {
-    return ctx.prisma[this.model].create({ data: user });
+    return ctx.prisma[this.model].create({ 
+      data: 
+      { ...post, 
+        createdAt: new Date() 
+      } 
+    });
   };
 
   public getAll = async (ctx: IContext) => {
@@ -22,8 +27,8 @@ export default class PrismaModel {
   public getAllByAuthorId = async (
     attribute: Partial<Post>,
     ctx: IContext
-  ): Promise<Post | null> => {
-    return ctx.prisma[this.model].findFirst({ where: attribute });
+  ): Promise<Post[]> => {
+    return ctx.prisma[this.model].findMany({ where: attribute });
   };
 
   public getOne = async (
@@ -35,12 +40,15 @@ export default class PrismaModel {
 
   public updateOne = async (
     id: number,
-    payload: IPostUpdate,
+    post: IPostUpdate,
     ctx: IContext
   ): Promise<Post | null> => {
     return ctx.prisma[this.model].update({
       where: { id },
-      data: payload,
+      data: { 
+        ...post, 
+        updatedAt: new Date() 
+      }
     });
   };
 

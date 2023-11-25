@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src --watch src/app",
     "start": "node .",
-    "build": "npx -y tsc"
+    "build": "npx -y tsc",
+    "prisma:migrate": "npx prisma db push && npx prisma db pull && npx prisma generate",
+    "prisma:reset": "npx prisma migrate reset --force"
   },
   "repository": {
     "type": "git",

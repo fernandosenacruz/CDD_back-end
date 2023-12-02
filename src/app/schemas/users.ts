@@ -3,14 +3,11 @@ import { z } from 'zod';
 export const UserCreateSchema = z
   .object({
     name: z.string().min(3).max(50),
+    userName: z.string().min(3).max(15),
     email: z.string().email(),
-    password: z.string(),
-    confirmPassword: z.string()
+    password: z.string().min(6),
   })
-  .strict()
-  .refine((value => {
-    return value.password === value.confirmPassword;
-  }));
+  .strict();
 
 const create = UserCreateSchema;
 
@@ -24,22 +21,18 @@ const getOne = UserIdSchema;
 
 export const UserUpdateSchema = z
   .object({
-    name: z.string().min(3).max(50),
-    email: z.string().email(),
-    password: z.string(),
-    confirmPassword: z.string()
-  })
-  .strict()
-  .refine((value => {
-    return value.password === value.confirmPassword;
-  }));
+    name: z.string().min(3).max(50).optional(),
+    email: z.string().email().optional(),
+    userName: z.string().min(3).max(15).optional(),
+    password: z.string().min(6).optional(),
+  });
 
 const updateOne = UserUpdateSchema;
 
 export const UserLoginSchema = z.
   object({
     userName: z.string().min(3).max(15),
-    password: z.string().min(6).max(8),
+    password: z.string().min(6),
   })
   .strict();
 

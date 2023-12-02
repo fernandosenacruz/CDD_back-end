@@ -7,16 +7,16 @@ import prisma from '../helpers/prisma';
 const router: Router = Router();
 const postController = new PostController({ prisma });
 
-router.get('posts', postController.getAll);
+router.get('/posts', postController.getAll);
 
-router.get('posts:id', postController.getAllByUserId);
+router.get('/posts/:id', postController.getAllByUserId);
 
-router.get('posts:id', postController.getById);
+router.get('/posts/:id', postController.getById);
 
-router.post('posts/post', postValidations.validateCreate, postController.create);
+router.post('/posts/post', postValidations.validateCreate, postController.create);
 
-router.put('posts:id', postValidations.validateUpdate, postController.updateOne);
+router.put('/posts/:id', postValidations.validateUpdate, postController.updateOne);
 
-router.delete('posts:id', postController.deleteOne);
+router.delete('/posts/:id', postController.deleteOne);
 
 export default router;

@@ -69,8 +69,8 @@ export default class UserCrontroller {
   ): Promise<TypedResponse<IUserResponse>> => {
     const { id } = req.params;
 
-    const response = await this.clientService.deleteOne(id, this.ctx);
+    const { statusCode, message } = await this.clientService.deleteOne(id, this.ctx);
 
-    return res.status(StatusCodes.OK).json(response);
+  return res.status(statusCode).json(message);
   };
 }

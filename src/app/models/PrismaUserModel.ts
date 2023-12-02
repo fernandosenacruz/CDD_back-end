@@ -23,7 +23,14 @@ export default class PrismaModel {
   };
 
   public getAll = async (ctx: IContext) => {
-    return ctx.prisma[this.model].findMany();
+    return ctx.prisma[this.model].findMany({
+      select: {
+        id: true,
+        name: true,
+        userName: true,
+        email: true,
+      }
+    });
   };
 
   public getOne = async (
@@ -38,6 +45,11 @@ export default class PrismaModel {
     payload: IUserUpdate,
     ctx: IContext
   ): Promise<User | null> => {
+    if (payload.password) {
+      const hashedPassword = await bcrypt.hash(payload.password, 10);
+      payload.password = hashedPassword;
+    }
+
     return ctx.prisma[this.model].update({
       where: { id },
       data: payload,

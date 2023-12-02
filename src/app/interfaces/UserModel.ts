@@ -4,7 +4,7 @@ import { IUserUpdate } from './User';
 import IContext from './Context';
 
 export default interface IUserModel {
-  getAll: (ctx: IContext) => Promise<User[]>;
+  getAll: (ctx: IContext) => Promise<Partial<User>[]>;
   deleteOne: (id: number, ctx: IContext) => Promise<User>;
   create: (user: User, ctx: IContext) => Promise<User>;
   getOne: (attribute: Partial<User>, ctx: IContext) => Promise<User | null>;

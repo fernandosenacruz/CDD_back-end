@@ -1,5 +1,4 @@
 import { User } from '@prisma/client';
-import { IPost } from './Post';
 import { z } from 'zod';
 
 import StatusCodes from '../helpers/others/StatusCodes';
@@ -9,13 +8,6 @@ import { UserCreateSchema, UserUpdateSchema } from '../schemas/users';
 type IUserCreate = z.infer<typeof UserCreateSchema>;
 type IUserUpdate = z.infer<typeof UserUpdateSchema>;
 
-interface IUser {
-  name:     string;
-  email:    string;
-  userName: string;
-  post?:    IPost[];
-}
-
 interface IUserResponse {
   user?:      Partial<User> | null;
   message:    string;
@@ -23,13 +15,12 @@ interface IUserResponse {
 }
 
 interface IUsersResponse {
-  users:      IUser[];
+  users:      Partial<User>[];
   message:    string;
   statusCode: StatusCodes;
 }
 
 export {
-  IUser,
   IUserResponse,
   IUsersResponse,
   IUserCreate,

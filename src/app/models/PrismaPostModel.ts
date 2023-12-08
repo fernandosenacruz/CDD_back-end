@@ -1,5 +1,5 @@
 import { Post } from '@prisma/client';
-
+import { extension } from 'prisma-paginate';
 import { IPostUpdate } from '../interfaces/Post';
 import IContext from '../interfaces/Context';
 
@@ -15,20 +15,14 @@ export default class PrismaModel {
     return ctx.prisma[this.model].create({ 
       data: 
       { ...post, 
-        createdAt: new Date() 
+        createdAt: new Date(),
+        published: false, 
       } 
     });
   };
 
   public getAll = async (ctx: IContext) => {
-    return ctx.prisma[this.model].findMany();
-  };
-
-  public getAllByAuthorId = async (
-    attribute: Partial<Post>,
-    ctx: IContext
-  ): Promise<Post[]> => {
-    return ctx.prisma[this.model].findMany({ where: attribute });
+    return ctx.prisma.$extends(extension)[this.model].paginate({ page: 1, limit: 1 });
   };
 
   public getOne = async (

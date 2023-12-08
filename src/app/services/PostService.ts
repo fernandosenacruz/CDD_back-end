@@ -21,7 +21,7 @@ export default class PostService {
     const newPost = await this.postModel.create(post, ctx);
 
     return {
-      message: MESSAGES.USERS.CREATED,
+      message: MESSAGES.POSTS.CREATED + ' ' + MESSAGES.POSTS.PRIVATE,
       statusCode: StatusCodes.CREATED,
       post: newPost
     };
@@ -31,20 +31,7 @@ export default class PostService {
     const posts = await this.postModel.getAll(ctx);
 
     return {
-      message: MESSAGES.USERS.FOUND,
-      statusCode: StatusCodes.OK,
-      posts
-    };
-  };
-
-  public getByUserId = async (
-    postId: string,
-    ctx: IContext
-    ): Promise<IPostsResponse> => {
-    const posts = await this.postModel.getAllByAuthorId({ authorId: +postId }, ctx);
-
-    return {
-      message: MESSAGES.USERS.FOUND,
+      message: MESSAGES.POSTS.FOUND,
       statusCode: StatusCodes.OK,
       posts
     };
@@ -59,7 +46,7 @@ export default class PostService {
     if (!post) throw ERRORS.POST.NOT_FOUND;
 
     return {
-      message: MESSAGES.USERS.FOUND,
+      message: MESSAGES.POSTS.FOUND,
       statusCode: StatusCodes.OK,
       post
     };
@@ -81,7 +68,7 @@ export default class PostService {
     );
 
     return {
-      message: MESSAGES.USERS.UPDATAED,
+      message: MESSAGES.POSTS.UPDATAED,
       statusCode: StatusCodes.OK,
       post: updatedPost,
     };
@@ -101,7 +88,7 @@ export default class PostService {
     );
 
     return {
-      message: MESSAGES.USERS.DELETED,
+      message: MESSAGES.POSTS.DELETED,
       statusCode: StatusCodes.OK,
     };
   };

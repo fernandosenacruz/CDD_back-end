@@ -1,4 +1,5 @@
 import { Post } from '@prisma/client';
+import { PaginationResult } from 'prisma-paginate/dist/pagination/result/PaginationResult';
 import { z } from 'zod';
 
 import StatusCodes from '../helpers/others/StatusCodes';
@@ -26,7 +27,7 @@ interface IPostResponse {
 }
 
 interface IPostsResponse {
-  posts:      IPost[];
+  posts:      PaginationResult;
   message:    string;
   statusCode: StatusCodes;
 }

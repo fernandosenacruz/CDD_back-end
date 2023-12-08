@@ -20,6 +20,8 @@ export default class UserService {
   ): Promise<IUserResponse> => {
     const emailExists = await this.userModel.getOne(
       { email: user.email },
+      false,
+      false,
       ctx
     );
 
@@ -46,19 +48,23 @@ export default class UserService {
 
   public getById = async (
     userId: string,
+    posts: boolean,
+    published: boolean,
     ctx: IContext
   ): Promise<IUserResponse> => {
-    const user = await this.userModel.getOne({ id: +userId }, ctx);
+    const user = await this.userModel.getOne(
+      { id: +userId }, 
+      posts,
+      published,
+      ctx
+    );
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
-
-    const { id, name, userName, email } = user;
-    const userWithoutPassword = { id, name, email, userName };
 
     return {
       message: MESSAGES.USERS.FOUND,
       statusCode: StatusCodes.OK,
-      user: userWithoutPassword,
+      user,
     };
   };
 
@@ -67,7 +73,7 @@ export default class UserService {
     payload: IUserUpdate,
     ctx: IContext
   ): Promise<IUserResponse> => {
-    const user = await this.userModel.getOne({ id: +userId }, ctx);
+    const user = await this.userModel.getOne({ id: +userId }, false, false, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
@@ -88,7 +94,7 @@ export default class UserService {
     userId: string,
     ctx: IContext
   ): Promise<IUserResponse> => {
-    const user = await this.userModel.getOne({ id: +userId }, ctx);
+    const user = await this.userModel.getOne({ id: +userId }, false, false, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 

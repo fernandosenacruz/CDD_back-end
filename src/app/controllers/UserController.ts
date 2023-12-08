@@ -43,8 +43,16 @@ export default class UserCrontroller {
     _next: NextFunction
   ): Promise<TypedResponse<IUserResponse>> => {
     const { id } = req.params;
+    const { posts, published } = req.query;
+    const booleanPost = posts === 'true';
+    const booleanPublished = published === 'true';
 
-    const response = await this.clientService.getById(id, this.ctx);
+    const response = await this.clientService.getById(
+      id,
+      booleanPost,
+      booleanPublished,
+      this.ctx
+    );
 
     return res.status(StatusCodes.OK).json(response);
   };

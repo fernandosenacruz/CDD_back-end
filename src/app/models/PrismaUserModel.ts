@@ -35,9 +35,34 @@ export default class PrismaModel {
 
   public getOne = async (
     attribute: Partial<User>,
+    posts: boolean,
+    published: boolean,
     ctx: IContext
-  ): Promise<User | null> => {
-    return ctx.prisma[this.model].findFirst({ where: attribute });
+  ): Promise<Partial<User> | null> => {
+    return ctx.prisma[this.model].findFirst({ 
+      where: attribute,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        userName: true,
+        posts: !posts ? false : {
+          where: {
+            published
+          },
+          select: {
+            id: true,
+            phrase: true,
+            imgURL: true,
+            createdAt: true,
+          },
+          orderBy: {
+            id: 'desc'
+          }
+        }
+        
+      } 
+    });
   };
 
   public updateOne = async (

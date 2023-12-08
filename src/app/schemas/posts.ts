@@ -22,7 +22,6 @@ export const PostUpdateSchema = z
   .object({
     phrase: z.string().min(10).max(255),
     imgURL: z.string().optional(),
-    authorId: z.number(),
   })
   .strict();
 

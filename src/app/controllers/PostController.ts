@@ -28,23 +28,11 @@ export default class PostCrontroller {
   };
 
   public getAll = async (
-    _req: Request,
+    req: TypedRequest<any, any, any>,
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IPostsResponse>> => {
     const response = await this.postService.getAll(this.ctx);
-
-    return res.status(StatusCodes.OK).json(response);
-  };
-
-  public getAllByUserId = async (
-    req: TypedRequest<any, any, { id: string }>,
-    res: Response,
-    _next: NextFunction
-  ): Promise<TypedResponse<IPostResponse>> => {
-    const { id } = req.params;
-
-    const response = await this.postService.getByUserId(id, this.ctx);
 
     return res.status(StatusCodes.OK).json(response);
   };

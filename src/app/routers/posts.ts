@@ -9,11 +9,9 @@ const postController = new PostController({ prisma });
 
 router.get('/posts', postController.getAll);
 
-router.get('/posts/:id', postController.getAllByUserId);
-
 router.get('/posts/:id', postController.getById);
 
-router.post('/posts/post', postValidations.validateCreate, postController.create);
+router.post('/posts', postValidations.validateCreate, postController.create);
 
 router.put('/posts/:id', postValidations.validateUpdate, postController.updateOne);
 

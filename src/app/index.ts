@@ -10,6 +10,6 @@ const App: Application = Express();
 
 App.use(Express.json(), cors());
 
-App.use('/', routers.users, errorMiddleware);
+App.use('/', routers.users, routers.posts, errorMiddleware);
 
 export default App;

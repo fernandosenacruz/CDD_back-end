@@ -8,7 +8,8 @@ const MESSAGES = {
   },
   POSTS: {
     CREATED: 'Post criado com sucesso',
-    POST_EXISTS: 'Post já cadastrado',
+    PUBLIC: 'Post publicado',
+    PRIVATE: 'Post aguardando moderação de conteúdeo',
     FOUND: 'Post encontrado com sucesso',
     UPDATAED: 'Post atualizado com sucesso',
     DELETED: 'Post deletado com sucesso',

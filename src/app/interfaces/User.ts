@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { PaginationResult } from 'prisma-paginate/dist/pagination/result/PaginationResult';
 import { z } from 'zod';
 
 import StatusCodes from '../helpers/others/StatusCodes';
@@ -15,7 +16,7 @@ interface IUserResponse {
 }
 
 interface IUsersResponse {
-  users:      Partial<User>[];
+  users:      PaginationResult;
   message:    string;
   statusCode: StatusCodes;
 }

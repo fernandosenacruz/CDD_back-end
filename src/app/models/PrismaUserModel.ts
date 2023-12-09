@@ -1,7 +1,8 @@
 import { User } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { extension } from 'prisma-paginate';
 import { IUserUpdate } from '../interfaces/User';
 import IContext from '../interfaces/Context';
+import bcrypt from 'bcrypt';
 
 type Models = 'user';
 
@@ -22,8 +23,10 @@ export default class PrismaModel {
     });
   };
 
-  public getAll = async (ctx: IContext) => {
-    return ctx.prisma[this.model].findMany({
+  public getAll = async (page: number = 1, limit: number = 50, ctx: IContext) => {
+    return ctx.prisma.$extends(extension)[this.model].paginate({
+      page,
+      limit,
       select: {
         id: true,
         name: true,

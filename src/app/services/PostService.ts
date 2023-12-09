@@ -27,8 +27,8 @@ export default class PostService {
     };
   };
 
-  public getAll = async (ctx: IContext): Promise<IPostsResponse> => {
-    const posts = await this.postModel.getAll(ctx);
+  public getAll = async (page:number, limit: number, ctx: IContext): Promise<IPostsResponse> => {
+    const posts = await this.postModel.getAll(page, limit, ctx);
 
     return {
       message: MESSAGES.POSTS.FOUND,

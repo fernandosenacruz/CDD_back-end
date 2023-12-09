@@ -32,7 +32,12 @@ export default class PostCrontroller {
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IPostsResponse>> => {
-    const response = await this.postService.getAll(this.ctx);
+    const { page, limit } = req.query;
+    const response = await this.postService.getAll(
+      page ? +page: page, 
+      limit ? +limit: limit, 
+      this.ctx
+    );
 
     return res.status(StatusCodes.OK).json(response);
   };

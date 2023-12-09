@@ -28,11 +28,16 @@ export default class UserCrontroller {
   };
 
   public getAll = async (
-    _req: Request,
+    req: TypedRequest<any, any, any>,
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IUsersResponse>> => {
-    const response = await this.clientService.getAll(this.ctx);
+    const { page, limit } = req.query;
+    const response = await this.clientService.getAll(
+      page ? +page: page, 
+      limit ? +limit: limit, 
+      this.ctx
+    );
 
     return res.status(StatusCodes.OK).json(response);
   };

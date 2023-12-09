@@ -36,8 +36,8 @@ export default class UserService {
     };
   };
 
-  public getAll = async (ctx: IContext): Promise<IUsersResponse> => {
-    const users = await this.userModel.getAll(ctx);
+  public getAll = async (page: number, limit: number, ctx: IContext): Promise<IUsersResponse> => {
+    const users = await this.userModel.getAll(page, limit, ctx);
 
     return {
       message: MESSAGES.USERS.FOUND,

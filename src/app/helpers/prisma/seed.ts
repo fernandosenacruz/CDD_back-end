@@ -8,7 +8,7 @@ async function main() {
       name: 'Ximira',
       userName: 'ximira',
       email: 'ximira@prisma.io',
-      password: '123456',
+      password: '$2b$10$kkY.KJmOSkfG/J2FzwAJ0.MTENZAbmHO2wK18S0.ab7sVucKf2TCO',
       posts: {
         create: [
           {
@@ -72,7 +72,7 @@ async function main() {
       name: 'Xibil',
       userName: 'xibil',
       email: 'xibil@prisma.io',
-      password: '123456',
+      password: '$2b$10$kkY.KJmOSkfG/J2FzwAJ0.MTENZAbmHO2wK18S0.ab7sVucKf2TCO',
       posts: {
         create: [
           {

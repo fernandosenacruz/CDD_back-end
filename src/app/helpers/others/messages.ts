@@ -3,6 +3,7 @@ const MESSAGES = {
     CREATED: 'Usuário criado com sucesso',
     USER_EXISTS: 'Usuário já cadastrado',
     FOUND: 'Usuário encontrado com sucesso',
+    NOT_FOUND: 'Usuário não encontrado',
     UPDATAED: 'Usuário atualizado com sucesso',
     DELETED: 'Usuário deletado com sucesso',
   },

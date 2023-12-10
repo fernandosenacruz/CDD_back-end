@@ -1,25 +1,51 @@
 import JWT, { JwtPayload } from 'jsonwebtoken';
 import ERRORS from '../helpers/errors/error';
 import { IMiddlewareRequestHandler } from '../interfaces/RequestHandler';
+import LoginService from '../services/LoginService';
+import IContext from '../interfaces/Context';
+import { StatusCodes } from 'http-status-codes';
 
-const validateToken: IMiddlewareRequestHandler = async (req, _res, next) => {
-  const { authorization } = req.headers;
+export class LoginMiddeware {
+  constructor(
+    private ctx: IContext,
+    private clientService = new LoginService()
+  ) {}
 
-  if (!authorization) {
-    throw ERRORS.AUTH.TOKEN_NOT_FOUND;
+  public validateToken: IMiddlewareRequestHandler = async (req, _res, next) => {
+    const { authorization } = req.headers;
+  
+    if (!authorization) {
+      throw ERRORS.AUTH.TOKEN_NOT_FOUND;
+    }
+  
+    try {
+      const { username, password } = JWT.decode(authorization) as JwtPayload;
+  
+      if (!username || !password) throw new Error();
+  
+      const { statusCode } = await this.clientService.login(username, password, this.ctx);
+
+      if (statusCode !== StatusCodes.OK) throw new Error();
+    } catch (e) {
+      throw ERRORS.AUTH.INVALID_TOKEN;
+    }
+  
+    next();
+  };
+}
+
+
+const generateToken = (payload: object) => {
+  const { JWT_SECRET } = process.env;
+
+  if (!JWT_SECRET) {
+    throw new Error('Please define JWT_SECRET Environment variable');
   }
 
-  try {
-    const { username, password } = JWT.decode(authorization) as JwtPayload;
-
-    if (!username || !password) throw new Error();
-  } catch (e) {
-    throw ERRORS.AUTH.INVALID_TOKEN;
-  }
-
-  next();
+  return JWT.sign(payload, JWT_SECRET, { expiresIn: '24h' });
 };
 
 export default {
-  validateToken,
+  LoginMiddeware,
+  generateToken
 };

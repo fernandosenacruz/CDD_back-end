@@ -8,6 +8,7 @@ export default interface IUserModel {
   getAll: (page: number, limit: number, ctx: IContext) => Promise<PaginationResult>;
   deleteOne: (id: number, ctx: IContext) => Promise<User>;
   create: (user: User, ctx: IContext) => Promise<User>;
+  getOneLogin(userName: string, ctx: IContext): Promise<User>;
   getOne: (
     attribute: Partial<User>, 
     posts: boolean, 

@@ -68,6 +68,21 @@ export default class UserService {
     };
   };
 
+  public getByLogin = async (
+    userName: string,
+    ctx: IContext
+  ): Promise<IUserResponse> => {
+    const user = await this.userModel.getOneLogin(userName, ctx);
+
+    if (!user) throw ERRORS.USER.NOT_FOUND;
+
+    return {
+      message: MESSAGES.USERS.FOUND,
+      statusCode: StatusCodes.OK,
+      user,
+    };
+  };
+
   public updateOne = async (
     userId: string,
     payload: IUserUpdate,

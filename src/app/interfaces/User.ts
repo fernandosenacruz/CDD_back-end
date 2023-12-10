@@ -15,6 +15,10 @@ interface IUserResponse {
   statusCode: StatusCodes;
 }
 
+interface ILoginResponse extends IUserResponse {
+  token: string;
+};
+
 interface IUsersResponse {
   users:      PaginationResult;
   message:    string;
@@ -24,6 +28,7 @@ interface IUsersResponse {
 export {
   IUserResponse,
   IUsersResponse,
+  ILoginResponse,
   IUserCreate,
   IUserUpdate
 };

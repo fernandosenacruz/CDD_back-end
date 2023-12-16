@@ -19,14 +19,14 @@ export class LoginMiddeware {
     }
   
     try {
-      const { username, password } = JWT.decode(authorization) as JwtPayload;
+      const { userName, password } = JWT.decode(authorization) as JwtPayload;
+      if (!userName || !password) throw new Error();
   
-      if (!username || !password) throw new Error();
-  
-      const { statusCode } = await this.clientService.login(username, password, this.ctx);
+      const { statusCode } = await this.clientService.login(userName, password, this.ctx);
 
       if (statusCode !== StatusCodes.OK) throw new Error();
     } catch (e) {
+      console.log(e)
       throw ERRORS.AUTH.INVALID_TOKEN;
     }
   

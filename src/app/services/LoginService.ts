@@ -17,7 +17,6 @@ export default class LoginService {
     password: string,
     ctx: IContext
   ): Promise<ILoginResponse> => {
-    console.log(userName, password)
     const user = await this.userModel.getOneLogin(userName, ctx);
 
     if (!user) throw ERRORS.USER.NOT_FOUND;

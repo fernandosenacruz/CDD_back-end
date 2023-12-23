@@ -10,6 +10,7 @@ import {
   IPostUpdate,
 } from '../interfaces/Post';
 import { Post } from '@prisma/client';
+import verifyOffensiveWords from '../utils/verifyOffensiveWords';
 
 export default class PostService {
   constructor(private postModel: IPostModel = Models.PostModel) {}
@@ -18,7 +19,11 @@ export default class PostService {
     post: Post,
     ctx: IContext
   ): Promise<IPostResponse> => {
-    const newPost = await this.postModel.create(post, ctx);
+    const { phrase } = post;
+    const offensiveWords = process.env.OFFENSIVE_WORDS || '';
+
+    const safePhase = verifyOffensiveWords(phrase, offensiveWords);
+    const newPost = await this.postModel.create({...post, phrase: safePhase }, ctx);
 
     return {
       message: MESSAGES.POSTS.CREATED + ' ' + MESSAGES.POSTS.PRIVATE,

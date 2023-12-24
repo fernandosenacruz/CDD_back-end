@@ -26,7 +26,7 @@ export default class PostService {
     const newPost = await this.postModel.create({...post, phrase: safePhase }, ctx);
 
     return {
-      message: MESSAGES.POSTS.CREATED + ' ' + MESSAGES.POSTS.PRIVATE,
+      message: MESSAGES.POSTS.CREATED + ', ' + MESSAGES.POSTS.PRIVATE,
       statusCode: StatusCodes.CREATED,
       post: newPost
     };
@@ -34,10 +34,12 @@ export default class PostService {
 
   public getAll = async (page:number, limit: number, ctx: IContext): Promise<IPostsResponse> => {
     const posts = await this.postModel.getAll(page, limit, ctx);
-
+    let message: string = posts.count > 0 ? MESSAGES.POSTS.FOUND : MESSAGES.POSTS.NO_CONTENT;
+    let statusCode: number = posts.count > 0 ? StatusCodes.OK : StatusCodes.NO_CONTENT;
+    
     return {
-      message: MESSAGES.POSTS.FOUND,
-      statusCode: StatusCodes.OK,
+      message,
+      statusCode,
       posts
     };
   };

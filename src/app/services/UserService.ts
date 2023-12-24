@@ -38,10 +38,12 @@ export default class UserService {
 
   public getAll = async (page: number, limit: number, ctx: IContext): Promise<IUsersResponse> => {
     const users = await this.userModel.getAll(page, limit, ctx);
-
+    let message: string = users.count > 0 ? MESSAGES.USERS.FOUNDS : MESSAGES.USERS.NO_CONTENT;
+    let statusCode: number = users.count > 0 ? StatusCodes.OK : StatusCodes.NO_CONTENT;
+    
     return {
-      message: MESSAGES.USERS.FOUND,
-      statusCode: StatusCodes.OK,
+      message,
+      statusCode,
       users,
     };
   };

@@ -1,0 +1,372 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title" : "Api de Posts de frases desmotivacionais",
+    "description": "Api de estudos desenvolvida para permitir cadastro simples de usuários e postagens com frases e imagens. Finalidade lúdica e humorística",
+    "contact": {
+      "name": "Suport",
+      "url": "https://www.linkedin.com/in/fernandosenacruz/"
+    },
+    "license": "MIT",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/posts": {
+      "get": {
+        "description": "Lista todos as postagens. Padrão 'limit=50'",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePosts"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum post cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePostNoContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+
+      },
+      "post": {
+        "description": "Cria uma postagem",
+        "requestBody": {
+          "description": "Dados para criação de uma postagem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCreatePost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreatedPost"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "posts/{id}": {
+      "put": {
+        "description": "Atualiza uma postagem",
+        "parameters": [
+          {
+            "description ": "Id da postagem",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ]
+      },
+      "delete": {
+        "description": "Deleta uma postagem",
+        "parameters": [
+          {
+            "description ": "Id da postagem",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Post deletado com sucesso"
+              },
+              "statusCode": {
+                "type": "number",
+                "example": "200"
+              }
+            }
+          },
+          "404": {
+            "description": "Post não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePostNoContent"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RequestCreatePost": {
+        "type": "object",
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "description": "Frase 'desmotivacional' com finalidade humorística",
+            "example": "Se ainda não ficou rico com o curso 'Python do zero ao avançado em um dia' do mano Deyvin, saiba que ele está."
+          },
+          "imgURL": {
+            "type": "string",
+            "description": "Link da imagem",
+            "example": "https://media.licdn.com/dms/image/D4D03AQF1wM2aJhMBrg/profile-displayphoto-shrink_800_800/0/1692880496551?e=1708560000&v=beta&t=fcREhRlJHGio6TLtrDeWaV_tOdV8JhsDfR978FdNaVc"
+          },
+          "authorId": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          }
+        }
+      },
+      "ResponseUnauthorized": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": "401"
+          },
+          "message": {
+            "type": "string",
+            "example": "Token inválido"
+          }
+        }
+      },
+      "ResponsePostNotFound": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "example": "Post não encontrado"
+          }
+        }
+      }
+      ,
+      "ResponsePost": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id da postagem",
+            "example": "1"
+          },
+          "phrase": {
+            "type": "string",
+            "example": "Se ainda não ficou rico com o curso 'Python do zero ao avançado em um dia' do mano Deyvin, saiba que ele está."
+          },
+          "imgURL": {
+            "type": "string",
+            "example": "https://media.licdn.com/dms/image/D4D03AQF1wM2aJhMBrg/profile-displayphoto-shrink_800_800/0/1692880496551?e=1708560000&v=beta&t=fcREhRlJHGio6TLtrDeWaV_tOdV8JhsDfR978FdNaVc"
+          },
+          "authorId": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Data como timestamp da criação",
+            "example": "2023-12-08T19:42:08.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Data como timestamp da atualização",
+            "example": "2023-12-08T19:42:08.000Z"
+          },
+          "published": {
+            "type": "boolean",
+            "description": "Valor boleano referente à publicação da postagem",
+            "example": "false"
+          }
+        }
+      },
+      "ResponseCreatedPost": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Post criado com sucesso, aguardando moderação de conteúdeo..."
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "201"
+          },
+          "post": {
+            "type": "object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePost"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResponsePosts": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Posts encotrados com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "200"
+          },
+          "posts": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "example": "50"
+              },
+              "page": {
+                "type": "number",
+                "example": "1"
+              },
+              "totalPages": {
+                "type": "number",
+                "example": "1"
+              },
+              "count": {
+                "type": "number",
+                "example": "3"
+              },
+              "exceedCount": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "exceedTotalPages": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasPrevPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "result": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ResponsePost" 
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResponsePostNoContent": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Nenhum post encontrado"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "204"
+          },
+          "posts": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "example": "50"
+              },
+              "page": {
+                "type": "number",
+                "example": "1"
+              },
+              "totalPages": {
+                "type": "number",
+                "example": "1"
+              },
+              "count": {
+                "type": "number",
+                "example": "3"
+              },
+              "exceedCount": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "exceedTotalPages": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasPrevPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "result": {
+                "type": "array"              
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

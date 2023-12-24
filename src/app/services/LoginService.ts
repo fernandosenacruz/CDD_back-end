@@ -21,7 +21,7 @@ export default class LoginService {
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
-    if (!await compareHashPassword(password, user.password)) throw ERRORS.USER.NOT_FOUND;
+    if (!await compareHashPassword(password, user.password)) throw ERRORS.USER.WORG_PASSWORD;
   
     const dbUser = { userName, password };
 

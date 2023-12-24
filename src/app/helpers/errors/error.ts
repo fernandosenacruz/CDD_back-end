@@ -1,4 +1,5 @@
 import StatusCodes from '../others/StatusCodes';
+import MESSAGES from '../others/messages';
 
 export class ApplicationError extends Error {
   constructor(
@@ -13,27 +14,31 @@ const ERRORS = {
   USER: {
     EMAIL_EXISTS: new ApplicationError(
       StatusCodes.CONFLICT,
-      'Email já cadastrado',
+      MESSAGES.USERS.USER_EXISTS,
     ),
     NOT_FOUND: new ApplicationError(
       StatusCodes.NOT_FOUND,
-      'Usuário não encontrado',
+      MESSAGES.USERS.NOT_FOUND,
+    ),
+    WORG_PASSWORD: new ApplicationError(
+      StatusCodes.UNAUTHORIZED,
+      MESSAGES.USERS.WRONG_PASSWORD,
     ),
   },
   POST: {
     NOT_FOUND: new ApplicationError(
       StatusCodes.NOT_FOUND,
-      'Post não encontrado',
+      MESSAGES.POSTS.NOT_FOUND,
     ),
   },
   AUTH: {
     TOKEN_NOT_FOUND: new ApplicationError(
       StatusCodes.BAD_REQUEST,
-      'Token not found',
+      MESSAGES.TOKEN.NOT_FOUND,
     ),
     INVALID_TOKEN: new ApplicationError(
-      StatusCodes.FORBIDDEN,
-      'Invalid token',
+      StatusCodes.UNAUTHORIZED,
+      MESSAGES.TOKEN.INVALID,
     ),
   },
 };

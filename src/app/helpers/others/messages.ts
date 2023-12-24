@@ -8,6 +8,7 @@ const MESSAGES = {
     NO_CONTENT: 'Nenhum usuário cadastrado',
     UPDATAED: 'Usuário atualizado com sucesso',
     DELETED: 'Usuário deletado com sucesso',
+    WRONG_PASSWORD: 'Senha incorreta'
   },
   POSTS: {
     CREATED: 'Post criado com sucesso',
@@ -15,9 +16,14 @@ const MESSAGES = {
     PRIVATE: 'aguardando moderação de conteúdeo',
     FOUND: 'Post encontrado com sucesso',
     FOUNDS: 'Posts encotrados com sucesso',
+    NOT_FOUND: 'Post não encontrado',
     NO_CONTENT: 'Nenhum post cadastrado',
     UPDATAED: 'Post atualizado com sucesso',
     DELETED: 'Post deletado com sucesso',
+  },
+  TOKEN: {
+    NOT_FOUND: 'Token não encontrado',
+    INVALID: 'Token inválido'
   }
 };
 

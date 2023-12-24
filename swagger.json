@@ -8,15 +8,86 @@
       "url": "https://www.linkedin.com/in/fernandosenacruz/"
     },
     "license": "MIT",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "x-logo": {
+      "url": "../CDD_back-end/src/assets/img/cdd_logo.png"
+    }
   },
   "paths": {
+    "/login": {
+      "post": {
+        "requestBody": {
+          "description": "Dados para realizar login",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLogin"
+                }
+              }
+            }
+          },
+          "404": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Usuário não encontrado"
+              },
+              "statusCode": {
+                "type": "number",
+                "example": "404"
+              }
+            }
+            
+          },
+          "401": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Senha incorreta"
+              },
+              "statusCode": {
+                "type": "number",
+                "example": "401"
+              }
+            }            
+          }
+        }
+      }
+    },
     "/posts": {
       "get": {
         "description": "Lista todos as postagens. Padrão 'limit=50'",
         "security": [
           {
             "ApiKeyAuth": []
+          }
+        ],
+        "parameters":[
+          {
+            "description ": "Página",
+            "type": "number",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "description ": "Limite de itens por página",
+            "type": "number",
+            "name": "limit",
+            "required": false,
+            "in": "query"
           }
         ],
         "responses": {
@@ -100,7 +171,49 @@
             "required": true,
             "in": "path"
           }
-        ]
+        ],
+        "requestBody": {
+          "description": "Dados para atualização de uma postagem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestUpdatePost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUpdatedPost"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePostNoContent"
+                }
+              }
+            }
+          }        
+        }
       },
       "delete": {
         "description": "Deleta uma postagem",
@@ -143,6 +256,22 @@
   },
   "components": {
     "schemas": {
+      "RequestLogin": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Usuário",
+            "example": "ximira"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha",
+            "example": "123456"
+          }
+        },
+        "required": [ "userName", "password"]
+      },
       "RequestCreatePost": {
         "type": "object",
         "properties": {
@@ -160,6 +289,20 @@
             "type": "number",
             "description": "Id do usuário",
             "example": "1"
+          }
+        },
+        "required": [ "phrase", "authorId"]
+      },
+      "RequestUpdatePost": {
+        "type": "object",
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "description": "Atualiza frase 'desmotivacional'"
+          },
+          "imgURL": {
+            "type": "string",
+            "description": "Atualiza o link da imagem"
           }
         }
       },
@@ -188,8 +331,58 @@
             "example": "Post não encontrado"
           }
         }
-      }
-      ,
+      },
+      "ResponseUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "nome do usuário",
+            "example": "Ximira"
+          },
+          "email": {
+            "type": "string",
+            "example": "ximira@prisma.io"
+          },
+          "password": {
+            "type": "string",
+            "description": "hash da senha do usuário",
+            "example": "$2b$10$kkY.KJmOSkfG/J2FzwAJ0.MTENZAbmHO2wK18S0.ab7sVucKf2TCO"
+          },
+          "userName": {
+            "type": "string",
+            "description": "nick do usuário",
+            "example": "ximira"
+          },
+          "token": {
+            "type": "string",
+            "description": "Copiar e colar na área de autenticação para utilizar demais rotas",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InhpbWlyYSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaWF0IjoxNzAzNDQxMzg1LCJleHAiOjE3MDM1Mjc3ODV9.GBCAZRU85FgrLLbNZp_px1paV7KFK-Sy-vLv2ZCxh8k"
+          }
+        }
+      },
+      "ResponseLogin": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Usuário encontrado com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "200"
+          },
+          "post": {
+            "type": "object",
+            "$ref": "#/components/schemas/ResponseUser"
+          }
+        }
+      },
       "ResponsePost": {
         "type": "object",
         "properties": {
@@ -241,13 +434,24 @@
           },
           "post": {
             "type": "object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponsePost"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/ResponsePost"
+          }
+        }
+      },
+      "ResponseUpdatedPost": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Post atualizado com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "200"
+          },
+          "post": {
+            "type": "object",
+            "$ref": "#/components/schemas/ResponsePost"
           }
         }
       },

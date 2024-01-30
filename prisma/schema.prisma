@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -11,7 +11,7 @@ model Post {
   id        Int      @id @default(autoincrement())
   phrase    String   @db.VarChar(255)
   createdAt DateTime @default(now()) @db.Timestamp(0)
-  imgURL    String?  @db.Text
+  imgURL    String?
   published Boolean  @default(false)
   authorId  Int
   updatedAt DateTime @default(now()) @db.Timestamp(0)
@@ -26,5 +26,5 @@ model User {
   email    String @unique(map: "email") @db.VarChar(255)
   password String @db.VarChar(255)
   userName String @db.VarChar(8)
-  posts     Post[]
+  posts    Post[]
 }

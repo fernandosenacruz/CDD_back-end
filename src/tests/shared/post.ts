@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Post } from '@prisma/client';
+import { PaginationResult } from 'prisma-paginate';
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
@@ -13,7 +14,7 @@ const generateMockPost = (props?: MockPostProps): PostCreate => {
   const { withId } = props || {};
 
   const post: PostCreate = {
-    phrase: faker.lorem.paragraphs(20),
+    phrase: faker.lorem.paragraphs(1),
     published: faker.datatype.boolean({ probability: 0.1 }),
     authorId: faker.number.int({ min: 1 }),
     imgURL: faker.internet.url(),
@@ -21,9 +22,22 @@ const generateMockPost = (props?: MockPostProps): PostCreate => {
     updatedAt: faker.date.recent(),
   };
 
-  if (withId) post.id = faker.number.int({ min: 999 });
+  if (withId) post.id = faker.number.int({ min: 1, max: 999 });
   return post;
 };
+
+const generateMockPostsPaginate = (quantity: number ,props?: MockPostProps) => {
+  return {
+    result: Array(quantity).fill(generateMockPost(props)) as unknown as Post[],
+    totalPages: faker.number.int({ min: 1, max: 10 }),
+    hasNextPage: faker.datatype.boolean(),
+    hasPrevPage: faker.datatype.boolean(),
+    count: faker.number.int({ min: 1, max: 99 }),
+    nextPage: (): any => {},
+    exceedCount: faker.datatype.boolean(),
+    exceedTotalPages: faker.datatype.boolean()
+  };
+}
 
 const generateMockPosts = (
   quantity: number,
@@ -34,5 +48,6 @@ const generateMockPosts = (
 
 export {
   generateMockPost,
-  generateMockPosts
+  generateMockPosts,
+  generateMockPostsPaginate
 };

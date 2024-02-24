@@ -1,7 +1,5 @@
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
-
-import Helpers from '../helpers';
 import StatusCodes from '../helpers/others/StatusCodes';
 import { TypedResponse } from '../interfaces';
 
@@ -9,8 +7,6 @@ interface ErrorResponse {
   statusCode: StatusCodes;
   message: string;
 }
-
-const { ApplicationError } = Helpers.errors;
 
 const errorMiddleware: ErrorRequestHandler = (
   err,
@@ -37,7 +33,6 @@ const errorMiddleware: ErrorRequestHandler = (
     statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
     message: "Something worng doesn't rigth!",
   });
-
 };
 
 export default errorMiddleware;

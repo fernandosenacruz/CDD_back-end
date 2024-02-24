@@ -1,4 +1,4 @@
-import ERRORS from '../helpers/errors/error';
+import { ERRORS } from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
 import IContext from '../interfaces/Context';

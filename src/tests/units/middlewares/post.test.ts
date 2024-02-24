@@ -15,8 +15,8 @@ describe('Test Post Middleware', () => {
 
   describe('Test validateCreate', () => {
     it('Should correctly validate a new post', () => {
-      const { phrase, authorId, imgURL } = generateMockPost({ withId: false });
-      req.body = { phrase, authorId, imgURL };
+      const { phrase, imgURL } = generateMockPost({ withId: false });
+      req.body = { phrase, imgURL };
 
       PostMiddleware.validateCreate(req, res, next);
       expect(next).toHaveBeenCalled();
@@ -25,10 +25,10 @@ describe('Test Post Middleware', () => {
     it('Should not validate an invalid post', () => {
       const mockPost = generateMockPost({ withId: false });
       mockPost.phrase = '';
-      req.body = { 
+      req.body = {
         phrase: mockPost.phrase,
         authorId: mockPost.authorId,
-        imgURL: mockPost.imgURL
+        imgURL: mockPost.imgURL,
       };
 
       try {
@@ -42,7 +42,9 @@ describe('Test Post Middleware', () => {
 
   describe('Test validateUpdate', () => {
     it('Should correctly validate an existing post', () => {
-      const { id, phrase, authorId, imgURL } = generateMockPost({ withId: true });
+      const { id, phrase, authorId, imgURL } = generateMockPost({
+        withId: true,
+      });
       req.params = { id: id.toString() };
       req.body = { phrase, authorId, imgURL };
 

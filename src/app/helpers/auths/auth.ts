@@ -1,6 +1,6 @@
-import JWT, { JwtPayload } from 'jsonwebtoken';
 import md5 from 'md5';
-import ERRORS from '../errors/error'; 
+import JWT, { JwtPayload } from 'jsonwebtoken';
+import { ERRORS } from '../errors/error';
 
 const encryptPassword = (password: string) => md5(password);
 

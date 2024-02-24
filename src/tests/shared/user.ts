@@ -5,7 +5,7 @@ export type UserLogin = Pick<User, 'userName' | 'password'>;
 
 const generateMockUserLogin = (): UserLogin => ({
   userName: faker.internet.userName(),
-  password: faker.internet.password(),
+  password: faker.internet.password({ length: 8 }),
 });
 
 const generateMockUser = (userLogin?: UserLogin, withId?: boolean): Partial<User> => {

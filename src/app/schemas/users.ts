@@ -51,7 +51,10 @@ export const UserLoginSchema = z.
       .string()
       .min(3, 'Username must be at least 3 characters long')
       .max(15, 'Username must be at most 15 characters long'),
-    password: z.string().min(6, 'Password must be at least 6 characters long'),
+    password: z.
+      string()
+      .min(6, 'Password must be at least 6 characters long')
+      .max(8, 'Password must be at most 8 characters long'),
   })
   .strict();
 

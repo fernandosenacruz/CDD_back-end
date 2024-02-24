@@ -1,3 +1,3 @@
-import ERRORS, { ApplicationError } from './error';
+import { ApplicationError, ERRORS } from './error';
 
-export default { ERRORS, ApplicationError };
+export default { ApplicationError, ERRORS };

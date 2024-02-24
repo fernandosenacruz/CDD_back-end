@@ -13,6 +13,8 @@ router.get('/posts', postController.getAll);
 
 router.get('/posts/:id', postController.getById);
 
+router.get('/posts/:authorId', postController.getByAuthorId);
+
 router.post('/posts', loginMiddeware.validateToken, postValidations.validateCreate, postController.create);
 
 router.put('/posts/:id', loginMiddeware.validateToken, postValidations.validateUpdate, postController.updateOne);

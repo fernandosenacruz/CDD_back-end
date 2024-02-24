@@ -11,7 +11,7 @@ import {
 } from '../interfaces/User';
 import { User } from '@prisma/client';
 
-export default class UserCrontroller {
+export default class UserController {
   constructor(
     private ctx: IContext,
     private clientService = new UserService()

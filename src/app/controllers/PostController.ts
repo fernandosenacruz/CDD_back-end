@@ -32,8 +32,10 @@ export default class PostCrontroller {
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IPostsResponse>> => {
+    const authorId: number = 0;
     const { page, limit } = req.query;
     const response = await this.postService.getAll(
+      authorId,
       page ? +page: page, 
       limit ? +limit: limit, 
       this.ctx
@@ -50,6 +52,24 @@ export default class PostCrontroller {
     const { id } = req.params;
 
     const response = await this.postService.getById(id, this.ctx);
+
+    return res.status(StatusCodes.OK).json(response);
+  };
+
+  public getByAuthorId = async (
+    req: TypedRequest<any, any, { authorId: string }>,
+    res: Response,
+    _next: NextFunction
+  ): Promise<TypedResponse<IPostsResponse>> => {
+    const { authorId } = req.params;
+    const { page, limit } = req.query;
+
+    const response = await this.postService.getByAuthorId(
+      authorId,
+      page ? +page: page,
+      limit ? +limit: limit,  
+      this.ctx
+    );
 
     return res.status(StatusCodes.OK).json(response);
   };

@@ -1,5 +1,5 @@
 import { Post } from '@prisma/client';
-import { extension } from 'prisma-paginate';
+import { PaginationResult, extension } from 'prisma-paginate';
 import { IPostUpdate } from '../interfaces/Post';
 import IContext from '../interfaces/Context';
 
@@ -21,8 +21,16 @@ export default class PrismaModel {
     });
   };
 
-  public getAll = async (page: number = 1, limit: number = 50, ctx: IContext) => {
-    return ctx.prisma.$extends(extension)[this.model].paginate({ page, limit });
+  public getAll = async (authorId: number, page: number = 1, limit: number = 50, ctx: IContext) => {
+    let result: PaginationResult; 
+
+    if (authorId > 0) {
+      result = await ctx.prisma.$extends(extension)[this.model].paginate({ where: { authorId } }, { page,limit });
+    } else {
+      result = await ctx.prisma.$extends(extension)[this.model].paginate({ page,limit });
+    }
+
+    return result;
   };
 
   public getOne = async (

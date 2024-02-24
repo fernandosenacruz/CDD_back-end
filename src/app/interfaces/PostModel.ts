@@ -4,7 +4,7 @@ import { IPostUpdate } from './Post';
 import IContext from './Context';
 
 export default interface IUserModel {
-  getAll: (page: number, limit: number, ctx: IContext) => Promise<PaginationResult>;
+  getAll: (authorId: number, page: number, limit: number, ctx: IContext) => Promise<PaginationResult>;
   deleteOne: (id: number, ctx: IContext) => Promise<Post>;
   create: (post: Post, ctx: IContext) => Promise<Post>;
   getOne: (attribute: Partial<Post>, ctx: IContext) => Promise<Post | null>;

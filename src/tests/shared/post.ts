@@ -1,13 +1,12 @@
-import { faker } from '@faker-js/faker/locale/pt_BR';
 import { Post } from '@prisma/client';
-import { PaginationResult } from 'prisma-paginate';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 
-type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
 export type PostCreate = Optional<Post, 'id'>;
 
 interface MockPostProps {
-  withId: boolean
+  withId: boolean;
 }
 
 const generateMockPost = (props?: MockPostProps): PostCreate => {
@@ -16,7 +15,7 @@ const generateMockPost = (props?: MockPostProps): PostCreate => {
   const post: PostCreate = {
     phrase: faker.lorem.paragraphs(1),
     published: faker.datatype.boolean({ probability: 0.1 }),
-    authorId: faker.number.int({ min: 1 }),
+    authorId: faker.number.int({ min: 1, max: 999 }),
     imgURL: faker.internet.url(),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
@@ -26,7 +25,7 @@ const generateMockPost = (props?: MockPostProps): PostCreate => {
   return post;
 };
 
-const generateMockPostsPaginate = (quantity: number ,props?: MockPostProps) => {
+const generateMockPostsPaginate = (quantity: number, props?: MockPostProps) => {
   return {
     result: Array(quantity).fill(generateMockPost(props)) as unknown as Post[],
     totalPages: faker.number.int({ min: 1, max: 10 }),
@@ -35,19 +34,13 @@ const generateMockPostsPaginate = (quantity: number ,props?: MockPostProps) => {
     count: faker.number.int({ min: 1, max: 99 }),
     nextPage: (): any => {},
     exceedCount: faker.datatype.boolean(),
-    exceedTotalPages: faker.datatype.boolean()
+    exceedTotalPages: faker.datatype.boolean(),
   };
-}
+};
 
 const generateMockPosts = (
   quantity: number,
-  props: MockPostProps = { withId: false },
-): PostCreate[] => (
-  Array(quantity).fill(generateMockPost(props))
-);
+  props: MockPostProps = { withId: false }
+): PostCreate[] => Array(quantity).fill(generateMockPost(props));
 
-export {
-  generateMockPost,
-  generateMockPosts,
-  generateMockPostsPaginate
-};
+export { generateMockPost, generateMockPosts, generateMockPostsPaginate };

@@ -26,6 +26,7 @@ describe('Test User Middleware', () => {
     it('Should throw error for invalid fields', () => {
       const userMock = generateMockUser();
       req.body = userMock;
+      req.body.name = null;
 
       try {
         UserMiddleware.validateLogin(req, res, next);

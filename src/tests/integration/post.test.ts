@@ -1,32 +1,30 @@
 import JWT from 'jsonwebtoken';
 import requester from './utilities/requester';
+import { faker } from '@faker-js/faker';
 import { StatusCodes } from 'http-status-codes';
 import { Post, PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
 import { generateMockUserLogin } from '../shared/user';
 import { PaginationResult } from 'prisma-paginate';
 import {
   PostCreate,
-  generateMockPost,
   generateMockPosts,
   generateMockPostsPaginate,
 } from '../shared/post';
-
 
 const prisma = new PrismaClient();
 
 describe('Test post Routes', () => {
   let token: string;
 
-  const createPosts = (posts: PostCreate[]) => (
-    prisma.post.createMany({ data: posts })
-  );
+  const createPosts = (posts: PostCreate[]) =>
+    prisma.post.createMany({ data: posts });
 
   const generateToken = () => {
     const user = generateMockUserLogin();
     const { JWT_SECRET } = process.env;
 
-    if (!JWT_SECRET) throw new Error('Please define JWT_SECRET Environment variable');
+    if (!JWT_SECRET)
+      throw new Error('Please define JWT_SECRET Environment variable');
 
     return JWT.sign(user, JWT_SECRET);
   };
@@ -42,7 +40,7 @@ describe('Test post Routes', () => {
     it('Should return posts filtered by author', async () => {
       const { result } = generateMockPostsPaginate(10);
       const expectedBody = result.filter(
-        ({ authorId }) => authorId === result[0].authorId,
+        ({ authorId }) => authorId === result[0].authorId
       );
 
       await createPosts(result);
@@ -53,9 +51,9 @@ describe('Test post Routes', () => {
 
       expect(response.status).toBe(StatusCodes.OK);
       expect(response.body).toBeInstanceOf(PaginationResult);
-      const expectPromises = response.body.map((post: Post, idx: number) => (
+      const expectPromises = response.body.map((post: Post, idx: number) =>
         expect(post).toEqual(expect.objectContaining(expectedBody[idx]))
-      ));
+      );
 
       await Promise.all(expectPromises);
     });
@@ -103,13 +101,11 @@ describe('Test post Routes', () => {
         .send(mockedPayload);
 
       expect(response.status).toBe(StatusCodes.OK);
-      expect(response.body).toMatchObject(
-        { ...dbPosts[5], ...mockedPayload },
-      );
+      expect(response.body).toMatchObject({ ...dbPosts[5], ...mockedPayload });
 
-      const updatedPost = await prisma.post.findUnique(
-        { where: { id: dbPosts[5].id } },
-      );
+      const updatedPost = await prisma.post.findUnique({
+        where: { id: dbPosts[5].id },
+      });
       expect(updatedPost).toBeDefined();
       expect(updatedPost?.imgURL).toBe(mockedPayload.imgURL);
     });

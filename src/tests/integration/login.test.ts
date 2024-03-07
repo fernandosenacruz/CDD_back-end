@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import { StatusCodes } from 'http-status-codes';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import requester from './utilities/requester';
 import { ERRORS } from '../../app/helpers/errors/error';
 import {
@@ -24,12 +24,9 @@ describe('Test User Routes', () => {
 
     it('Should return token when user exists', async () => {
       const loginMock = generateMockUserLogin();
-      const userMock = generateMockUser(loginMock);
-
-      await prisma.user.create({
-        ...userMock,
-        password: md5(userMock.password, 'utf8'),
-      });
+      const userMock = generateMockUser(loginMock, { withId: false }) as User;
+      
+      await prisma.user.create({ data: { ...userMock, password: md5(userMock.password) } });
 
       const response = await loginRequest(loginMock);
 
@@ -39,15 +36,28 @@ describe('Test User Routes', () => {
       });
     });
 
-    it('Should return forbidden error for invalid credentials', async () => {
+    it('Should return forbidden error for non-existent user', async () => {
       const loginMock = generateMockUserLogin();
-
+     
       const response = await loginRequest(loginMock);
-
+     
       expect(response.status).toBe(StatusCodes.FORBIDDEN);
       expect(response.body).toMatchObject({
-        error: ERRORS.USER.WORG_PASSWORD,
+         error: ERRORS.USER.WRONG_PASSWORD,
+      });
+     });
+     
+     it('Should return forbidden error for invalid credentials', async () => {
+       const loginMock = generateMockUserLogin();
+       const invalidLogin = { ...loginMock, password: 'invalidPassword' };
+      
+       const response = await loginRequest(invalidLogin);
+      
+       expect(response.status).toBe(StatusCodes.FORBIDDEN);
+       expect(response.body).toMatchObject({
+          error: ERRORS.USER.WRONG_PASSWORD,
+       });
       });
     });
-  });
+
 });

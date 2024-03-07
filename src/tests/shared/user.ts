@@ -23,6 +23,8 @@ const generateMockUser = (
 
   const userNameAndPassword = userLogin || generateMockUserLogin();
   const user: Partial<User> = {
+    name: faker.person.firstName(),
+    email: faker.internet.email(),
     userName: userNameAndPassword.userName,
     password: userNameAndPassword.password,
   };

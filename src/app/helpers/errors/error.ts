@@ -17,7 +17,7 @@ export const ERRORS = {
       StatusCodes.NOT_FOUND,
       MESSAGES.USERS.NOT_FOUND
     ),
-    WORG_PASSWORD: new ApplicationError(
+    WRONG_PASSWORD: new ApplicationError(
       StatusCodes.UNAUTHORIZED,
       MESSAGES.USERS.WRONG_PASSWORD
     ),

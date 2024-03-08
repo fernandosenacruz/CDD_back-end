@@ -129,7 +129,6 @@ async function main() {
       },
     },
   })
-  console.log({ ximira, xibil });
 }
 main()
   .then(async () => {

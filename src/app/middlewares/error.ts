@@ -14,7 +14,6 @@ const errorMiddleware: ErrorRequestHandler = (
   res,
   _next
 ): TypedResponse<ErrorResponse> => {
-  console.log(err);
   if (err instanceof ZodError) {
     const zodError = err.issues[0];
 

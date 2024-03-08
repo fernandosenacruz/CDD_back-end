@@ -1,0 +1,35 @@
+version: '3.9'
+name: cdd_back-end
+
+services:
+  back-end:
+    container_name: cdd_back-end
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/cdd_back-end/src
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      timeout: 10s
+      retries: 5
+    env_file:
+      - .env
+  db:
+    image: postgres
+    restart: always
+    shm_size: 256mb
+    container_name: cdd_back-end-db
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "cdd_back-end-db"]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+      start_period: 30s

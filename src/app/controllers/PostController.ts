@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 
 import StatusCodes from '../helpers/others/StatusCodes';
 import { TypedRequest, TypedResponse } from '../interfaces';
@@ -25,10 +25,9 @@ export default class PostCrontroller {
     res: Response,
     _next: NextFunction
   ): Promise<TypedResponse<IPostsResponse>> => {
-    const authorId: number = 0;
-    const { page, limit } = req.query;
+    const { authorId, page, limit } = req.query;
     const response = await this.postService.getAll(
-      authorId,
+      authorId ? +authorId : 0,
       page ? +page : page,
       limit ? +limit : limit,
       this.ctx

@@ -1,6 +1,7 @@
-import { Optional } from './post';
+import { Optional, generateMockPosts } from './post';
 import { User } from '@prisma/client';
 import { faker } from '@faker-js/faker/locale/pt_BR';
+import { IUserWithPosts } from '../../app/interfaces';
 
 export type UserLogin = Pick<User, 'userName' | 'password'>;
 
@@ -8,6 +9,7 @@ export type UserCreate = Optional<User, 'id'>;
 
 interface MockUserProps {
   withId: boolean;
+  withPosts: boolean;
 }
 
 const generateMockUserLogin = (): UserLogin => ({
@@ -18,11 +20,11 @@ const generateMockUserLogin = (): UserLogin => ({
 const generateMockUser = (
   userLogin?: UserLogin,
   props?: MockUserProps
-): Partial<User> => {
-  const { withId } = props || {};
+): Partial<User> | IUserWithPosts => {
+  const { withId, withPosts } = props || {};
 
   const userNameAndPassword = userLogin || generateMockUserLogin();
-  const user: Partial<User> = {
+  const user: Partial<IUserWithPosts> = {
     name: faker.person.firstName(),
     email: faker.internet.email(),
     userName: userNameAndPassword.userName,
@@ -30,6 +32,8 @@ const generateMockUser = (
   };
 
   if (withId) user.id = faker.number.int({ min: 1, max: 999 });
+
+  if (withPosts) user.posts = generateMockPosts(10, { withId: true });
 
   return user;
 };
@@ -51,7 +55,7 @@ const generateMockUsersPaginate = (quantity: number, props?: MockUserProps) => {
 
 const generateMockUsers = (
   quantity: number,
-  props: MockUserProps = { withId: false }
+  props: MockUserProps = { withId: false , withPosts: false }
 ): UserCreate[] => Array(quantity).fill(generateMockUser(null, props));
 
 export {

@@ -37,10 +37,6 @@ describe('Test User Service', () => {
     mockCtx = createMockContext();
     ctx = mockCtx as unknown as Context;
   });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-   });
   
   describe('Test login', () => {
     it('Should validate user and return generated token', async () => {

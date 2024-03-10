@@ -3,6 +3,7 @@ import { IContext } from './Context';
 import { TypedRequest } from './TypedRequest';
 import { TypedResponse } from './TypedResponse';
 import { IPostModel } from './PostModel';
+import { IUserWithPosts } from './User';
 import {
   IControllerRequestHandler,
   IMiddlewareRequestHandler,
@@ -42,4 +43,5 @@ export {
   IUserCreate,
   IUserUpdate,
   IUserModel,
+  IUserWithPosts
 };

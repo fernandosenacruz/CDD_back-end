@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import StatusCodes from '../helpers/others/StatusCodes';
 import { TypedRequest, TypedResponse } from '../interfaces';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import UserService from '../services/UserService';
 import {
   IUserResponse,

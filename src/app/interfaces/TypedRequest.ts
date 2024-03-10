@@ -1,6 +1,6 @@
 import { ParamsDictionary, Query, Request } from 'express-serve-static-core';
 
-interface TypedRequest<
+export interface TypedRequest<
   T = {},
   U extends Query = {},
   V extends ParamsDictionary = {}
@@ -9,5 +9,3 @@ interface TypedRequest<
   query: U;
   params: V;
 }
-
-export default TypedRequest;

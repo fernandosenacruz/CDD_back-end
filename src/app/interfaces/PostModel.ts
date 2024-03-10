@@ -1,9 +1,9 @@
 import { Post } from '@prisma/client';
 import { PaginationResult } from 'prisma-paginate/dist/pagination/result/PaginationResult';
 import { IPostUpdate } from './Post';
-import IContext from './Context';
+import { IContext } from './Context';
 
-export default interface IUserModel {
+export interface IPostModel {
   getAll: (authorId: number, page: number, limit: number, ctx: IContext) => Promise<PaginationResult>;
   deleteOne: (id: number, ctx: IContext) => Promise<Post>;
   create: (post: Post, ctx: IContext) => Promise<Post>;

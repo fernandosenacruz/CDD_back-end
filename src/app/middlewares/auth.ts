@@ -2,7 +2,7 @@ import JWT, { JwtPayload } from 'jsonwebtoken';
 import { ERRORS } from '../helpers/errors/error';
 import { IMiddlewareRequestHandler } from '../interfaces/RequestHandler';
 import LoginService from '../services/LoginService';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import { StatusCodes } from 'http-status-codes';
 
 export class LoginMiddeware {

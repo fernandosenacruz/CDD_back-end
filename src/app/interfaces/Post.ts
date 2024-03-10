@@ -38,4 +38,5 @@ export {
   IPostsResponse,
   IPostCreate,
   IPostUpdate,
+  IValidatedPost,
 };

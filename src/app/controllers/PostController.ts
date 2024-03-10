@@ -2,20 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 
 import StatusCodes from '../helpers/others/StatusCodes';
 import { TypedRequest, TypedResponse } from '../interfaces';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import PostService from '../services/PostService';
-import {
-  IPostResponse,
-  IPostsResponse,
-  IPostUpdate,
-} from '../interfaces/Post';
+import { IPostResponse, IPostsResponse, IPostUpdate } from '../interfaces/Post';
 import { Post } from '@prisma/client';
 
 export default class PostCrontroller {
-  constructor(
-    private ctx: IContext,
-    private postService = new PostService()
-  ) {}
+  constructor(private ctx: IContext, private postService = new PostService()) {}
 
   public create = async (
     req: TypedRequest<Post>,
@@ -36,8 +29,8 @@ export default class PostCrontroller {
     const { page, limit } = req.query;
     const response = await this.postService.getAll(
       authorId,
-      page ? +page: page, 
-      limit ? +limit: limit, 
+      page ? +page : page,
+      limit ? +limit : limit,
       this.ctx
     );
 
@@ -66,8 +59,8 @@ export default class PostCrontroller {
 
     const response = await this.postService.getByAuthorId(
       authorId,
-      page ? +page: page,
-      limit ? +limit: limit,  
+      page ? +page : page,
+      limit ? +limit : limit,
       this.ctx
     );
 

@@ -1,9 +1,9 @@
 import { ERRORS } from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import Models from '../models';
-import IPostModel from './../interfaces/PostModel';
+import { IPostModel } from './../interfaces';
 import { IPostResponse, IPostsResponse, IPostUpdate } from '../interfaces/Post';
 import { Post } from '@prisma/client';
 import verifyOffensiveWords from '../utils/verifyOffensiveWords';

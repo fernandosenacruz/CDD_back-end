@@ -1,23 +1,16 @@
 import { ERRORS } from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import Models from '../models';
-import IUserModel  from './../interfaces/UserModel';
-import {
-  IUserResponse,
-  IUsersResponse,
-  IUserUpdate
-} from '../interfaces/User';
+import { IUserModel } from './../interfaces';
+import { IUserResponse, IUsersResponse, IUserUpdate } from '../interfaces/User';
 import { User } from '@prisma/client';
 
 export default class UserService {
   constructor(private userModel: IUserModel = Models.UserModel) {}
 
-  public create = async (
-    user: User,
-    ctx: IContext
-  ): Promise<IUserResponse> => {
+  public create = async (user: User, ctx: IContext): Promise<IUserResponse> => {
     const emailExists = await this.userModel.getOne(
       { email: user.email },
       false,
@@ -36,11 +29,17 @@ export default class UserService {
     };
   };
 
-  public getAll = async (page: number, limit: number, ctx: IContext): Promise<IUsersResponse> => {
+  public getAll = async (
+    page: number,
+    limit: number,
+    ctx: IContext
+  ): Promise<IUsersResponse> => {
     const users = await this.userModel.getAll(page, limit, ctx);
-    let message: string = users.count > 0 ? MESSAGES.USERS.FOUNDS : MESSAGES.USERS.NO_CONTENT;
-    let statusCode: number = users.count > 0 ? StatusCodes.OK : StatusCodes.NO_CONTENT;
-    
+    let message: string =
+      users.count > 0 ? MESSAGES.USERS.FOUNDS : MESSAGES.USERS.NO_CONTENT;
+    let statusCode: number =
+      users.count > 0 ? StatusCodes.OK : StatusCodes.NO_CONTENT;
+
     return {
       message,
       statusCode,
@@ -55,7 +54,7 @@ export default class UserService {
     ctx: IContext
   ): Promise<IUserResponse> => {
     const user = await this.userModel.getOne(
-      { id: +userId }, 
+      { id: +userId },
       posts,
       published,
       ctx
@@ -90,15 +89,16 @@ export default class UserService {
     payload: IUserUpdate,
     ctx: IContext
   ): Promise<IUserResponse> => {
-    const user = await this.userModel.getOne({ id: +userId }, false, false, ctx);
+    const user = await this.userModel.getOne(
+      { id: +userId },
+      false,
+      false,
+      ctx
+    );
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
-    const updatedUser = await this.userModel.updateOne(
-      +userId,
-      payload,
-      ctx
-    );
+    const updatedUser = await this.userModel.updateOne(+userId, payload, ctx);
 
     return {
       message: MESSAGES.USERS.UPDATAED,
@@ -111,14 +111,16 @@ export default class UserService {
     userId: string,
     ctx: IContext
   ): Promise<IUserResponse> => {
-    const user = await this.userModel.getOne({ id: +userId }, false, false, ctx);
+    const user = await this.userModel.getOne(
+      { id: +userId },
+      false,
+      false,
+      ctx
+    );
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
-    await this.userModel.deleteOne(
-      +userId,
-      ctx
-    );
+    await this.userModel.deleteOne(+userId, ctx);
 
     return {
       message: MESSAGES.USERS.DELETED,

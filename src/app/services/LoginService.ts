@@ -2,9 +2,9 @@ import { ERRORS } from '../helpers/errors/error';
 import MESSAGES from '../helpers/others/messages';
 import StatusCodes from '../helpers/others/StatusCodes';
 import AuthHelper from '../helpers/auths/auth';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import Models from '../models';
-import IUserModel  from './../interfaces/UserModel';
+import { IUserModel } from './../interfaces';
 import { ILoginResponse } from '../interfaces/User';
 
 import compareHashPassword from '../utils/compareHashPassword';
@@ -21,8 +21,9 @@ export default class LoginService {
 
     if (!user) throw ERRORS.USER.NOT_FOUND;
 
-    if (!await compareHashPassword(password, user.password)) throw ERRORS.USER.WRONG_PASSWORD;
-  
+    if (!(await compareHashPassword(password, user.password)))
+      throw ERRORS.USER.WRONG_PASSWORD;
+
     const dbUser = { userName, password };
 
     const token = AuthHelper.generateToken(dbUser);
@@ -31,8 +32,7 @@ export default class LoginService {
       message: MESSAGES.USERS.FOUND,
       statusCode: StatusCodes.OK,
       user,
-      token
+      token,
     };
   };
-
 }

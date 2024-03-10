@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express-serve-static-core';
-import Context from './Context';
+import { IContext } from './Context';
 
 type IControllerRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
-  ctx: Context,
+  ctx: IContext,
 ) => Promise<void>;
 
 type IMiddlewareRequestHandler = (

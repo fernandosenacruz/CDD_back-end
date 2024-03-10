@@ -1,30 +1,31 @@
 import { User } from '@prisma/client';
 import { extension } from 'prisma-paginate';
 import { IUserUpdate } from '../interfaces/User';
-import IContext from '../interfaces/Context';
+import { IContext } from '../interfaces';
 import encryptPassword from '../utils/encryptPassword';
-import IUserModel from '../interfaces/UserModel';
+import { IUserModel } from '../interfaces';
 
 type Models = 'user';
 
 export default class PrismaModel implements IUserModel {
   constructor(private model: Models) {}
 
-  public create = async (
-    user: User,
-    ctx: IContext
-  ): Promise<User> => {
+  public create = async (user: User, ctx: IContext): Promise<User> => {
     const hashedPassword = await encryptPassword(user.password);
 
-    return ctx.prisma[this.model].create({ 
+    return ctx.prisma[this.model].create({
       data: {
         ...user,
-        password: hashedPassword
-      }
+        password: hashedPassword,
+      },
     });
   };
 
-  public getAll = async (page: number = 1, limit: number = 50, ctx: IContext) => {
+  public getAll = async (
+    page: number = 1,
+    limit: number = 50,
+    ctx: IContext
+  ) => {
     return ctx.prisma.$extends(extension)[this.model].paginate({
       page,
       limit,
@@ -33,7 +34,7 @@ export default class PrismaModel implements IUserModel {
         name: true,
         userName: true,
         email: true,
-      }
+      },
     });
   };
 
@@ -43,29 +44,30 @@ export default class PrismaModel implements IUserModel {
     published: boolean,
     ctx: IContext
   ): Promise<Partial<User> | null> => {
-    return ctx.prisma[this.model].findFirst({ 
+    return ctx.prisma[this.model].findFirst({
       where: attribute,
       select: {
         id: true,
         name: true,
         email: true,
         userName: true,
-        posts: !posts ? false : {
-          where: {
-            published
-          },
-          select: {
-            id: true,
-            phrase: true,
-            imgURL: true,
-            createdAt: true,
-          },
-          orderBy: {
-            id: 'desc'
-          }
-        }
-        
-      } 
+        posts: !posts
+          ? false
+          : {
+              where: {
+                published,
+              },
+              select: {
+                id: true,
+                phrase: true,
+                imgURL: true,
+                createdAt: true,
+              },
+              orderBy: {
+                id: 'desc',
+              },
+            },
+      },
     });
   };
 

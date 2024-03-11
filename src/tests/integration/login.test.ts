@@ -24,7 +24,7 @@ describe('Test User Routes', () => {
 
     it('Should return token when user exists', async () => {
       const loginMock = generateMockUserLogin();
-      const userMock = generateMockUser(loginMock, { withId: false }) as User;
+      const userMock = generateMockUser(loginMock, { withId: false, withPosts: false }) as User;
       
       await prisma.user.create({ data: { ...userMock, password: md5(userMock.password) } });
 

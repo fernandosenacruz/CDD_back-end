@@ -83,6 +83,7 @@ describe('Test User Service', () => {
     it('Should return paginated users', async () => {
       const mockUsers = generateMockUsersPaginate(10, {
         withId: true,
+        withPosts: false,
       }) as PaginationResult;
       const page: number = 1;
       const limit: number = 10;
@@ -102,7 +103,7 @@ describe('Test User Service', () => {
     });
 
     it('Should return found post by id', async () => {
-      const mockUser = generateMockUser(null, { withId: true }) as User;
+      const mockUser = generateMockUser(null, { withId: true, withPosts: false }) as User;
       const withPosts: boolean = false;
       const published: boolean = false;
       const mockResponse: IUserResponse = { 
@@ -119,6 +120,7 @@ describe('Test User Service', () => {
     it('Should update field and return new user', async () => {
       const mockedUser = generateMockUser(null, {
         withId: true,
+        withPosts: false,
       }) as Partial<User>;
       const mockedPayload = { userName: faker.internet.userName() };
 

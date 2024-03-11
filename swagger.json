@@ -76,6 +76,13 @@
         ],
         "parameters":[
           {
+            "description ": "Autor do post",
+            "type": "number",
+            "name": "authorId",
+            "required": false,
+            "in": "query"
+          },
+          {
             "description ": "Página",
             "type": "number",
             "name": "page",

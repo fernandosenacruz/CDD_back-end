@@ -9,7 +9,7 @@ import { Post } from '@prisma/client';
 import verifyOffensiveWords from '../utils/verifyOffensiveWords';
 
 export default class PostService {
-  constructor(private postModel: IPostModel = Models.PostModel) {}
+  constructor(public postModel: IPostModel = Models.PostModel) {}
 
   public create = async (post: Post, ctx: IContext): Promise<IPostResponse> => {
     const { phrase } = post;

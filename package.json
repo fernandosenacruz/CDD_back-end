@@ -9,7 +9,7 @@
     "test:integration": "jest ./src/tests/integration",
     "dev": "ts-node-dev src --watch src/app",
     "start": "ts-node --transpile-only dist/src/index.js",
-    "build": "npx -y tsc",
+    "build": "npx -y tsc && npm run start",
     "prisma:seed": "ts-node src/app/helpers/prisma/seed.ts",
     "prisma:migrate": "npx prisma db push && npx prisma generate dev && npm run prisma:seed",
     "prisma:reset": "npx prisma migrate reset --force"

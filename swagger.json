@@ -69,11 +69,6 @@
     "/posts": {
       "get": {
         "description": "Lista todos as postagens. Padrão 'limit=50'",
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
         "parameters":[
           {
             "description ": "Autor do post",
@@ -133,6 +128,11 @@
       },
       "post": {
         "description": "Cria uma postagem",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "requestBody": {
           "description": "Dados para criação de uma postagem",
           "content": {
@@ -167,9 +167,14 @@
         }
       }
     },
-    "posts/{id}": {
+    "/posts/{id}": {
       "put": {
         "description": "Atualiza uma postagem",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "parameters": [
           {
             "description ": "Id da postagem",
@@ -224,6 +229,11 @@
       },
       "delete": {
         "description": "Deleta uma postagem",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "parameters": [
           {
             "description ": "Id da postagem",

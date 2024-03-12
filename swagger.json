@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title" : "Api de Posts de frases desmotivacionais",
+    "title": "Api de Posts de frases desmotivacionais",
     "description": "Api de estudos desenvolvida para permitir cadastro simples de usuários e postagens com frases e imagens. Finalidade lúdica e humorística",
     "contact": {
       "name": "Suport",
@@ -48,7 +48,6 @@
                 "example": "404"
               }
             }
-            
           },
           "401": {
             "type": "object",
@@ -61,7 +60,7 @@
                 "type": "number",
                 "example": "401"
               }
-            }            
+            }
           }
         }
       }
@@ -69,7 +68,7 @@
     "/posts": {
       "get": {
         "description": "Lista todos as postagens. Padrão 'limit=50'",
-        "parameters":[
+        "parameters": [
           {
             "description ": "Autor do post",
             "type": "number",
@@ -124,7 +123,6 @@
             }
           }
         }
-
       },
       "post": {
         "description": "Cria uma postagem",
@@ -168,6 +166,50 @@
       }
     },
     "/posts/{id}": {
+      "get": {
+        "description": "Retorna um postagem.",
+        "parameters": [
+          {
+            "description ": "Id da postagem",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePost"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum post cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePostNoContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "description": "Atualiza uma postagem",
         "security": [
@@ -224,7 +266,7 @@
                 }
               }
             }
-          }        
+          }
         }
       },
       "delete": {
@@ -269,6 +311,246 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "description": "Lista todos os usuarios. Padrão 'limit=50'",
+        "parameters": [
+          {
+            "description ": "Página",
+            "type": "number",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "description ": "Limite de itens por página",
+            "type": "number",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuarios encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUsers"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum usuário cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUserNoContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Cria um novo usuário",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Dados para criação de um novo usuário",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCreateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreatedUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "description": "Retorna um usuário cadastrado.",
+        "parameters": [
+          {
+            "description ": "Id d do usuário",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUserWithPosts"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum usuário cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUserNoContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Atualiza um usuário.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "description ": "Id do usuário",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados para atualização de um usuário",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestUpdateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUpdatedUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido/não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUserNoContent"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deleta um usuário",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "description ": "Id do usuário",
+            "type": "number",
+            "name": "id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Usuário deletado com sucesso"
+              },
+              "statusCode": {
+                "type": "number",
+                "example": "200"
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseUserNoContent"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -287,7 +569,7 @@
             "example": "123456"
           }
         },
-        "required": [ "userName", "password"]
+        "required": ["userName", "password"]
       },
       "RequestCreatePost": {
         "type": "object",
@@ -308,7 +590,7 @@
             "example": "1"
           }
         },
-        "required": [ "phrase", "authorId"]
+        "required": ["phrase", "authorId"]
       },
       "RequestUpdatePost": {
         "type": "object",
@@ -320,6 +602,47 @@
           "imgURL": {
             "type": "string",
             "description": "Atualiza o link da imagem"
+          }
+        }
+      },
+      "RequestCreateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário",
+            "example": "Ximira"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email do usuario (Unique)",
+            "example": "ximira@prisma.io"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário",
+            "example": "123456"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Nick do usuário",
+            "example": "ximira"
+          }
+        },
+        "required": ["name", "email", "password", "userName"]
+      },
+      "RequestUpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário",
+            "example": "Ximira"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Nick do usuário",
+            "example": "ximira"
           }
         }
       },
@@ -346,40 +669,6 @@
           "message": {
             "type": "string",
             "example": "Post não encontrado"
-          }
-        }
-      },
-      "ResponseUser": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "Id do usuário",
-            "example": "1"
-          },
-          "name": {
-            "type": "string",
-            "description": "nome do usuário",
-            "example": "Ximira"
-          },
-          "email": {
-            "type": "string",
-            "example": "ximira@prisma.io"
-          },
-          "password": {
-            "type": "string",
-            "description": "hash da senha do usuário",
-            "example": "$2b$10$kkY.KJmOSkfG/J2FzwAJ0.MTENZAbmHO2wK18S0.ab7sVucKf2TCO"
-          },
-          "userName": {
-            "type": "string",
-            "description": "nick do usuário",
-            "example": "ximira"
-          },
-          "token": {
-            "type": "string",
-            "description": "Copiar e colar na área de autenticação para utilizar demais rotas",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InhpbWlyYSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaWF0IjoxNzAzNDQxMzg1LCJleHAiOjE3MDM1Mjc3ODV9.GBCAZRU85FgrLLbNZp_px1paV7KFK-Sy-vLv2ZCxh8k"
           }
         }
       },
@@ -521,7 +810,7 @@
               "result": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ResponsePost" 
+                  "$ref": "#/components/schemas/ResponsePost"
                 }
               }
             }
@@ -575,19 +864,250 @@
                 "example": "false"
               },
               "result": {
-                "type": "array"              
+                "type": "array"
               }
             }
           }
         }
+      },
+      "ResponseUserNoContent": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Nenhum usuário encontrado"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "204"
+          },
+          "users": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "example": "50"
+              },
+              "page": {
+                "type": "number",
+                "example": "1"
+              },
+              "totalPages": {
+                "type": "number",
+                "example": "1"
+              },
+              "count": {
+                "type": "number",
+                "example": "3"
+              },
+              "exceedCount": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "exceedTotalPages": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasPrevPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "result": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      },
+      "ResponseUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "nome do usuário",
+            "example": "Ximira"
+          },
+          "email": {
+            "type": "string",
+            "example": "ximira@prisma.io"
+          },
+          "password": {
+            "type": "string",
+            "description": "hash da senha do usuário",
+            "example": "$2b$10$kkY.KJmOSkfG/J2FzwAJ0.MTENZAbmHO2wK18S0.ab7sVucKf2TCO"
+          },
+          "userName": {
+            "type": "string",
+            "description": "nick do usuário",
+            "example": "ximira"
+          },
+          "token": {
+            "type": "string",
+            "description": "Copiar e colar na área de autenticação para utilizar demais rotas",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InhpbWlyYSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiaWF0IjoxNzAzNDQxMzg1LCJleHAiOjE3MDM1Mjc3ODV9.GBCAZRU85FgrLLbNZp_px1paV7KFK-Sy-vLv2ZCxh8k"
+          }
+        }
+      },
+      "ResponseUserWithPosts": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "nome do usuário",
+            "example": "Ximira"
+          },
+          "email": {
+            "type": "string",
+            "example": "ximira@prisma.io"
+          },
+          "userName": {
+            "type": "string",
+            "description": "nick do usuário",
+            "example": "ximira"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponsePost"
+            }
+          }
+        }
+      },
+      "ResponseUserWithoutPassword": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id do usuário",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "nome do usuário",
+            "example": "Ximira"
+          },
+          "email": {
+            "type": "string",
+            "example": "ximira@prisma.io"
+          },
+          "userName": {
+            "type": "string",
+            "description": "nick do usuário",
+            "example": "ximira"
+          }
+        }
+      },
+      "ResponseUsers": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Usuários encotrados com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "200"
+          },
+          "users": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "example": "50"
+              },
+              "page": {
+                "type": "number",
+                "example": "1"
+              },
+              "totalPages": {
+                "type": "number",
+                "example": "1"
+              },
+              "count": {
+                "type": "number",
+                "example": "3"
+              },
+              "exceedCount": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "exceedTotalPages": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasNextPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "hasPrevPage": {
+                "type": "boolean",
+                "example": "false"
+              },
+              "result": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ResponseUserWithoutPassword"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ResponseCreatedUser": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Usuário criado com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "201"
+          },
+          "post": {
+            "type": "object",
+            "$ref": "#/components/schemas/ResponseUser"
+          }
+        }
+      },
+      "ResponseUpdatedUser": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Usuário atualizado com sucesso"
+          },
+          "statusCode": {
+            "type": "number",
+            "example": "200"
+          },
+          "post": {
+            "type": "object",
+            "$ref": "#/components/schemas/ResponseUser"
+          }
+        }
       }
-    },
-    "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
-      }
+    }
+  },
+  "securitySchemes": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }

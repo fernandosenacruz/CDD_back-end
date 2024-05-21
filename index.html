@@ -1,11 +1,20 @@
 <body>
+  <span id="baseUrl"></span>
   <div id="redoc-container"></div>
-  <script src="https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.55/bundles/redoc.standalone.min.js"> </script>
+  <script src="https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.55/bundles/redoc.standalone.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/wll8/redoc-try@1.4.9/dist/try.js"></script>
   <script>
-    initTry({
-      openApi: `http://localhost/3000/swagger`,
-      redocOptions: {scrollYOffset: 50},
-    })
+    fetch('/env')
+      .then((response) => response.json())
+      .then((data) => {
+        const baseUrlElement = document.getElementById('baseUrl');
+        const baseUrl = data.BASE_URL;
+        
+        initTry({
+          openApi: `${baseUrl}/swagger`,
+          redocOptions: { scrollYOffset: 50 },
+        });
+      })
+      .catch((err) => console.error(err));
   </script>
 </body>

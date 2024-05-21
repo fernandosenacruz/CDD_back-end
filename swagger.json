@@ -10,7 +10,8 @@
     "license": "MIT",
     "version": "1.0.0",
     "x-logo": {
-      "url": "../CDD_back-end/src/assets/img/cdd_logo.png"
+      "url": "https://github.com/fernandosenacruz/CDD_back-end/blob/685f720ffd73fe827dc697eb19b468d4d91179fa/src/assets/img/cdd_logo.png",
+      "altText": "Coach da depressão"
     }
   },
   "paths": {
@@ -315,6 +316,11 @@
     "/users": {
       "get": {
         "description": "Lista todos os usuarios. Padrão 'limit=50'",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "parameters": [
           {
             "description ": "Página",
@@ -408,6 +414,11 @@
     "/users/{id}": {
       "get": {
         "description": "Retorna um usuário cadastrado.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "parameters": [
           {
             "description ": "Id d do usuário",
@@ -611,12 +622,12 @@
           "name": {
             "type": "string",
             "description": "Nome do usuário",
-            "example": "Ximira"
+            "example": "Xablau"
           },
           "email": {
             "type": "string",
             "description": "Email do usuario (Unique)",
-            "example": "ximira@prisma.io"
+            "example": "xablau@prisma.io"
           },
           "password": {
             "type": "string",
@@ -626,7 +637,7 @@
           "userName": {
             "type": "string",
             "description": "Nick do usuário",
-            "example": "ximira"
+            "example": "xablau"
           }
         },
         "required": ["name", "email", "password", "userName"]
@@ -934,11 +945,11 @@
           "name": {
             "type": "string",
             "description": "nome do usuário",
-            "example": "Ximira"
+            "example": "Xablau"
           },
           "email": {
             "type": "string",
-            "example": "ximira@prisma.io"
+            "example": "xablau@prisma.io"
           },
           "password": {
             "type": "string",
@@ -948,7 +959,7 @@
           "userName": {
             "type": "string",
             "description": "nick do usuário",
-            "example": "ximira"
+            "example": "xablau"
           },
           "token": {
             "type": "string",
@@ -968,16 +979,16 @@
           "name": {
             "type": "string",
             "description": "nome do usuário",
-            "example": "Ximira"
+            "example": "Xablau"
           },
           "email": {
             "type": "string",
-            "example": "ximira@prisma.io"
+            "example": "xablau@prisma.io"
           },
           "userName": {
             "type": "string",
             "description": "nick do usuário",
-            "example": "ximira"
+            "example": "xablau"
           },
           "posts": {
             "type": "array",
@@ -998,16 +1009,16 @@
           "name": {
             "type": "string",
             "description": "nome do usuário",
-            "example": "Ximira"
+            "example": "Xablau"
           },
           "email": {
             "type": "string",
-            "example": "ximira@prisma.io"
+            "example": "xablau@prisma.io"
           },
           "userName": {
             "type": "string",
             "description": "nick do usuário",
-            "example": "ximira"
+            "example": "xablau"
           }
         }
       },

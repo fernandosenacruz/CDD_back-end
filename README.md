@@ -5,7 +5,10 @@ Api de estudos desenvolvida para permitir cadastro simples de usuários e postag
 # 🚀 Deploy 🚀
 
 O Deploy da aplicação foi feito no [Render](https://render.com/) utilizando de um Pipeline no [GitHub Actions do repositório](https://github.com/fernandosenacruz/CDD_back-end). Seguem os links de acesso da aplicação:
-* **Back-end**: https://cdd-back-end-8wbw.onrender.com/api-docs/
+
+**Back-end**
+- **Redocly**: https://cdd-back-end-8wbw.onrender.com/redocly
+- **Swagger**: https://cdd-back-end-8wbw.onrender.com/api-docs/
 
 ### Testar Rotas do Back-end
 

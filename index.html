@@ -7,7 +7,6 @@
     fetch('/env')
       .then((response) => response.json())
       .then((data) => {
-        const baseUrlElement = document.getElementById('baseUrl');
         const baseUrl = data.BASE_URL;
         
         initTry({

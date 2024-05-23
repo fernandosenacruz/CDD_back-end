@@ -10,6 +10,8 @@ O Deploy da aplicação foi feito no [Render](https://render.com/) utilizando de
 - **Redocly**: https://cdd-back-end-8wbw.onrender.com/redocly
 - **Swagger**: https://cdd-back-end-8wbw.onrender.com/api-docs/
 
+![image](https://github.com/fernandosenacruz/CDD_back-end/assets/67607748/0c05c58f-fdf6-417d-a32a-4b9d49b9ba81)
+
 ### Testar Rotas do Back-end
 
 Necessário realizar login e adicionar o token.
